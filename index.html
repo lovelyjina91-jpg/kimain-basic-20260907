@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>김아인 기초개념 다지기 · 영핏 지나티처</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    background: #f0f4f4; color: #2B3A3D; min-height: 100vh;
+    display: flex; justify-content: center; padding: 20px 14px;
+    word-break: keep-all; overflow-wrap: break-word;
+  }
+  .wrap { width: 100%; max-width: 560px; }
+  .card { background: #fff; border-radius: 16px; padding: 26px 22px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); margin-bottom: 14px; }
+  h1 { font-size: 1.25rem; color: #2F7C83; margin-bottom: 6px; line-height: 1.5; }
+  .sub { font-size: 0.9rem; color: #6B7B7E; margin-bottom: 18px; line-height: 1.85; }
+
+  /* ── 영핏 지나티처 로고 ── */
+  .logo { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
+  .logo svg { flex: none; display: block; }
+  .logo .wordmark { line-height: 1.25; }
+  .logo .wordmark .n { font-size: 0.88rem; font-weight: bold; color: #235E64; letter-spacing: -0.2px; }
+  .logo .wordmark .t { display: block; font-size: 0.68rem; color: #8fa5a1; letter-spacing: 0.5px; }
+
+  /* 영어 문장은 띄어쓰기 단위로만 줄바꿈 */
+  .en, .choice, .ord-tile { overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+
+  input[type=text] { width: 100%; padding: 13px; font-size: 1.05rem; border: 1.5px solid #DBE4E5; border-radius: 10px; font-family: inherit; }
+  input[type=text]:focus { outline: none; border-color: #2F7C83; }
+  .lbl { display: block; font-size: 0.85rem; font-weight: bold; color: #235E64; margin-bottom: 7px; }
+  .btn { display: block; width: 100%; margin-top: 12px; padding: 14px; font-size: 1.03rem; font-weight: bold; color: #fff; background: #2F7C83; border: none; border-radius: 10px; cursor: pointer; text-align: left; line-height: 1.55; font-family: inherit; }
+  .btn:disabled { background: #b8c4c2; cursor: default; }
+  .btn.sub-btn { background: #8fa5a1; }
+  .btn.center { text-align: center; }
+  .btn.done { background: #cfe0dc; color: #4d6a64; }
+  .btn.clinic { background: #b5762f; }
+  .btn .cnt { display: inline-block; font-size: 0.8rem; font-weight: normal; opacity: 0.92; margin-left: 4px; }
+
+  .progress { font-size: 0.85rem; color: #6B7B7E; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .srctag { display: inline-block; font-size: 0.75rem; color: #235E64; background: #E6F1F1; border-radius: 6px; padding: 3px 9px; margin-bottom: 10px; line-height: 1.5; }
+  .bar { height: 6px; background: #e3ecea; border-radius: 3px; margin-bottom: 14px; overflow: hidden; }
+  .bar > div { height: 100%; background: #2F7C83; border-radius: 3px; width: 0; transition: width .25s; }
+
+  .cardbox { background: #f2faf7; border: 1px solid #bfe0d6; border-left: 5px solid #2F7C83; border-radius: 12px; padding: 16px; margin-bottom: 14px; font-size: 0.95rem; line-height: 1.95; }
+  .cardbox h2 { font-size: 1.05rem; color: #235E64; margin-bottom: 10px; line-height: 1.5; }
+  .cardbox .ex { display: block; background: #fff; border-left: 3px solid #9dcfc3; border-radius: 6px; padding: 9px 11px; margin: 9px 0; font-size: 0.93rem; line-height: 1.95; }
+  .cardbox .my { display: block; background: #FFF6E8; border-left: 3px solid #e5cf8a; border-radius: 6px; padding: 9px 11px; margin: 9px 0; font-size: 0.93rem; line-height: 1.95; color: #4a4023; }
+  .cardbox .my b { color: #8a6400; }
+  .cardbox b { color: #235E64; }
+
+  details.tip { background: #f2faf7; border: 1px solid #bfe0d6; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; font-size: 0.9rem; line-height: 1.9; }
+  details.tip summary { cursor: pointer; font-weight: bold; color: #235E64; font-size: 0.85rem; }
+  details.tip .inner { margin-top: 8px; }
+  details.tip b { color: #235E64; }
+  details.tip .ex { display: block; background: #fff; border-left: 3px solid #9dcfc3; border-radius: 6px; padding: 9px 11px; margin: 9px 0; }
+  details.tip .my { display: block; background: #FFF6E8; border-left: 3px solid #e5cf8a; border-radius: 6px; padding: 9px 11px; margin: 9px 0; color: #4a4023; }
+  details.tip .my b { color: #8a6400; }
+
+  .qtext { font-size: 1.06rem; line-height: 1.95; margin-bottom: 16px; }
+  .qtext .ko { display: block; font-size: 0.9em; color: #6B7B7E; margin-top: 3px; }
+  .choice { display: block; width: 100%; text-align: left; padding: 13px 14px; margin-bottom: 9px; font-size: 1.02rem; background: #f6f9f8; border: 1.5px solid #DBE4E5; border-radius: 10px; cursor: pointer; line-height: 1.6; font-family: inherit; color: #2B3A3D; }
+  .choice:active { background: #E6F1F1; }
+  .num { color: #2F7C83; font-weight: bold; margin-right: 7px; }
+  .keyhint { font-size: 0.78rem; color: #9aa8a5; text-align: center; margin-top: 10px; }
+
+  .score-big { font-size: 2rem; font-weight: bold; color: #2F7C83; text-align: center; margin: 10px 0; }
+  .exp { background: #f6f9f8; border-left: 4px solid #2F7C83; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; font-size: 0.93rem; line-height: 1.9; }
+  .exp.wrong { border-left-color: #b5762f; background: #FFF6E8; }
+  .exp b { color: #235E64; }
+  .exp.wrong .exp-head b { color: #a2631f; }
+  .exp .ans-line { display: block; font-size: 0.85rem; color: #7a6a55; margin: 4px 0 6px; }
+
+  .whybox { background: #FFF6E8; border: 1px solid #e8d6b3; border-left: 5px solid #b5762f; border-radius: 12px; padding: 16px; margin-bottom: 14px; font-size: 0.95rem; line-height: 1.95; }
+  .whybox h2 { font-size: 1.02rem; color: #a2631f; margin-bottom: 10px; line-height: 1.5; }
+  .whybox .row { display: block; background: #fff; border-radius: 8px; padding: 9px 11px; margin: 8px 0; font-size: 0.93rem; line-height: 1.85; }
+  .whybox .row .k { color: #8a6400; font-weight: bold; }
+  .whybox b { color: #a2631f; }
+  .rulebox { background: #f2faf7; border: 1px solid #bfe0d6; border-left: 5px solid #2F7C83; border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; font-size: 0.94rem; line-height: 1.95; }
+  .rulebox .h { font-weight: bold; color: #235E64; display: block; margin-bottom: 5px; }
+  .rulebox b { color: #235E64; }
+
+  .ord-slot { min-height: 56px; background: #E6F1F1; border: 1.5px dashed #9dbdbd; border-radius: 10px; padding: 10px; margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+  .ord-ph { font-size: 0.85rem; color: #7f9a9a; }
+  .ord-pool { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .ord-tile { font-size: 1.02rem; padding: 10px 13px; background: #f6f9f8; border: 1.5px solid #DBE4E5; border-radius: 9px; cursor: pointer; font-family: inherit; color: #2B3A3D; line-height: 1.35; }
+  .ord-tile.picked { background: #2F7C83; color: #fff; border-color: #2F7C83; }
+  .ord-help { font-size: 0.82rem; color: #6B7B7E; line-height: 1.75; margin-bottom: 10px; }
+
+  .saybar { position: fixed; left: 0; right: 0; bottom: 0; background: #235E64; color: #fff; padding: 13px 16px; display: flex; align-items: center; gap: 11px; justify-content: center; z-index: 60; box-shadow: 0 -2px 14px rgba(0,0,0,0.2); }
+  .saybar .ico { flex: none; width: 24px; height: 24px; }
+  .saybar .lbl { display: block; font-size: 0.75rem; opacity: 0.85; letter-spacing: 0.3px; }
+  .saybar .txt { display: block; font-size: 1.02rem; font-weight: bold; line-height: 1.5; word-break: keep-all; overflow-wrap: normal; }
+  .soundrow { display: flex; align-items: flex-start; gap: 10px; margin-top: 16px; padding: 12px 13px; background: #E6F1F1; border-radius: 10px; }
+  .soundrow input { width: 19px; height: 19px; margin-top: 2px; flex: none; accent-color: #2F7C83; }
+  .soundrow label { font-size: 0.88rem; font-weight: bold; color: #235E64; cursor: pointer; line-height: 1.6; }
+  .soundrow label .note { display: block; font-size: 0.8rem; color: #6B7B7E; font-weight: normal; margin-top: 2px; }
+  .footer { text-align: center; font-size: 0.78rem; color: #9aa8a5; padding: 8px 0 26px; line-height: 1.8; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ══════ 시작 (이름 + 영역 선택) ══════ -->
+  <div class="card" id="start-card">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" width="38" height="38" role="img" aria-label="영핏">
+        <rect width="40" height="40" rx="11" fill="#2F7C83"/>
+        <rect x="8.5" y="22" width="5.6" height="9.5" rx="2.2" fill="#FFF6E8"/>
+        <rect x="17.2" y="17" width="5.6" height="14.5" rx="2.2" fill="#FFF6E8" opacity="0.82"/>
+        <rect x="25.9" y="10.5" width="5.6" height="21" rx="2.2" fill="#FFF6E8"/>
+      </svg>
+      <div class="wordmark"><span class="n">영핏 지나티처</span><span class="t">영어를 핏하다</span></div>
+    </div>
+    <h1>아인이의 기초개념 다지기<br>· bl · fl · gl · sl 소리 + a / an ·</h1>
+    <p class="sub">개념 카드 15장 + 문제 30문항 (5영역)<br>
+    단어 테스트와 Sweet Fruits 워크북에서 아인이가 헷갈렸던 곳을 <b>5가지</b>로 모았어요.<br>
+    낱말을 하나씩 외우지 않아도 돼요. <b>소리 덩어리</b>로 묶으면 훨씬 쉬워요!<br>
+    <b>개념 카드 1장 → 그 개념 문제 2개</b>, 이렇게 15번 반복해요.<br>
+    틀린 문제가 있으면 <b>왜 틀렸는지 설명 → 오답 클리닉 문제</b>가 이어서 나와요.<br>
+    답을 고르면 <b>정답 문장을 영어 소리로 들려줘요.</b> 소리 내어 따라 말해 보세요!<br>
+    한 영역이 끝나면 결과를 복사해서 지나티처에게 카톡으로 보내주세요.<br>
+    푼 기록은 자동 저장되니 중간에 꺼져도 이어서 할 수 있어요.</p>
+    <label class="lbl" for="name-input">이름</label>
+    <input type="text" id="name-input" placeholder="이름을 입력하세요" maxlength="20" autocomplete="off">
+    <div class="soundrow">
+      <input type="checkbox" id="sound-on" checked>
+      <label for="sound-on">정답 영어를 소리로 듣기<span class="note">답을 고르면 다음 문제로 넘어가기 전에 정답 문장을 원어민 소리로 들려줘요.</span></label>
+    </div>
+    <button class="btn sub-btn center" id="sound-test" style="margin-top:9px">소리 테스트 — 눌러서 영어가 들리는지 확인해요</button>
+    <p class="keyhint" id="sound-msg" style="margin-top:9px; min-height:18px"></p>
+    <p class="keyhint" style="margin-top:4px; line-height:1.7; color:#b5762f">
+      카톡에서 바로 열면 소리가 안 날 수 있어요.<br>
+      소리가 안 들리면 화면 <b>오른쪽 위 점 세 개</b>를 눌러<br>
+      <b>‘다른 브라우저로 열기’</b>(크롬 · 사파리)를 선택해 주세요.
+    </p>
+    <p class="sub" id="sec-pick-hint" style="margin:18px 0 -2px">아래에서 시작할 영역을 골라 주세요 (1영역부터 순서대로 푸는 걸 추천해요)</p>
+    <button class="btn sec-start" data-sec="0" disabled>1영역 시작 · bl · fl 두 글자 소리 <span class="cnt">카드 3장 · 6문항</span></button>
+    <button class="btn sec-start" data-sec="1" disabled>2영역 시작 · gl 삼형제 구별하기 <span class="cnt">카드 3장 · 6문항</span></button>
+    <button class="btn sec-start" data-sec="2" disabled>3영역 시작 · sl 두 글자 소리 <span class="cnt">카드 3장 · 6문항</span></button>
+    <button class="btn sec-start" data-sec="3" disabled>4영역 시작 · a / an 구별 <span class="cnt">카드 3장 · 6문항</span></button>
+    <button class="btn sec-start" data-sec="4" disabled>5영역 시작 · 과일 낱말 + 수업 표현 <span class="cnt">카드 3장 · 6문항</span></button>
+    <p class="keyhint" id="sec-done-note" style="margin-top:12px"></p>
+  </div>
+
+  <!-- ══════ 이어하기 ══════ -->
+  <div class="card hidden" id="resume-card">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" width="38" height="38" role="img" aria-label="영핏">
+        <rect width="40" height="40" rx="11" fill="#2F7C83"/>
+        <rect x="8.5" y="22" width="5.6" height="9.5" rx="2.2" fill="#FFF6E8"/>
+        <rect x="17.2" y="17" width="5.6" height="14.5" rx="2.2" fill="#FFF6E8" opacity="0.82"/>
+        <rect x="25.9" y="10.5" width="5.6" height="21" rx="2.2" fill="#FFF6E8"/>
+      </svg>
+      <div class="wordmark"><span class="n">영핏 지나티처</span><span class="t">영어를 핏하다</span></div>
+    </div>
+    <h1>이어서 풀 수 있어요</h1>
+    <p class="sub" id="resume-info"></p>
+    <button class="btn center" id="resume-btn">이어서 하기</button>
+    <button class="btn sub-btn center" id="restart-btn">처음부터 다시 하기</button>
+  </div>
+
+  <!-- ══════ 개념 카드 ══════ -->
+  <div class="card hidden" id="cards-card">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" width="30" height="30" role="img" aria-label="영핏">
+        <rect width="40" height="40" rx="11" fill="#2F7C83"/>
+        <rect x="8.5" y="22" width="5.6" height="9.5" rx="2.2" fill="#FFF6E8"/>
+        <rect x="17.2" y="17" width="5.6" height="14.5" rx="2.2" fill="#FFF6E8" opacity="0.82"/>
+        <rect x="25.9" y="10.5" width="5.6" height="21" rx="2.2" fill="#FFF6E8"/>
+      </svg>
+      <div class="wordmark"><span class="n">영핏 지나티처</span></div>
+    </div>
+    <div class="progress"><span id="card-num"></span><span id="card-sec"></span></div>
+    <div class="bar"><div id="card-bar"></div></div>
+    <div class="cardbox" id="cardbox"></div>
+    <button class="btn center" id="card-next">개념 확인 끝! 문제 2개 풀러 가기</button>
+    <button class="btn sub-btn center" id="card-skip">카드 건너뛰고 바로 문제 풀기</button>
+  </div>
+
+  <!-- ══════ 문제 ══════ -->
+  <div class="card hidden" id="quiz-card">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" width="30" height="30" role="img" aria-label="영핏">
+        <rect width="40" height="40" rx="11" fill="#2F7C83"/>
+        <rect x="8.5" y="22" width="5.6" height="9.5" rx="2.2" fill="#FFF6E8"/>
+        <rect x="17.2" y="17" width="5.6" height="14.5" rx="2.2" fill="#FFF6E8" opacity="0.82"/>
+        <rect x="25.9" y="10.5" width="5.6" height="21" rx="2.2" fill="#FFF6E8"/>
+      </svg>
+      <div class="wordmark"><span class="n">영핏 지나티처</span></div>
+    </div>
+    <div class="progress"><span id="prog-num"></span><span id="prog-pct"></span></div>
+    <div class="bar"><div id="bar-fill"></div></div>
+    <span class="srctag" id="srctag"></span>
+    <details class="tip" id="tipbox"><summary>개념 카드 다시 보기 (헷갈리면 눌러요)</summary><div class="inner" id="tipinner"></div></details>
+    <div class="qtext" id="qtext"></div>
+    <div id="choices"></div>
+    <p class="keyhint" id="keyhint">숫자키 1~4로도 선택할 수 있어요</p>
+  </div>
+
+  <!-- ══════ 영역 결과 ══════ -->
+  <div class="card hidden" id="sec-result-card">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" width="30" height="30" role="img" aria-label="영핏">
+        <rect width="40" height="40" rx="11" fill="#2F7C83"/>
+        <rect x="8.5" y="22" width="5.6" height="9.5" rx="2.2" fill="#FFF6E8"/>
+        <rect x="17.2" y="17" width="5.6" height="14.5" rx="2.2" fill="#FFF6E8" opacity="0.82"/>
+        <rect x="25.9" y="10.5" width="5.6" height="21" rx="2.2" fill="#FFF6E8"/>
+      </svg>
+      <div class="wordmark"><span class="n">영핏 지나티처</span></div>
+    </div>
+    <h1 id="sec-result-title"></h1>
+    <div class="score-big" id="sec-score"></div>
+    <p class="sub" id="sec-wrong" style="text-align:center"></p>
+    <button class="btn center" id="sec-copy-btn"></button>
+    <button class="btn clinic center hidden" id="clinic-start-btn"></button>
+    <button class="btn center" id="next-sec-btn" style="background:#38699e"></button>
+    <button class="btn sub-btn center" id="pick-sec-btn">영역 선택으로 돌아가기</button>
+    <div id="total-block" class="hidden" style="margin-top:22px; border-top:2px dashed #DBE4E5; padding-top:18px">
+      <p class="sub" style="text-align:center; margin-bottom:4px">전체 최종 결과</p>
+      <div class="score-big" id="total-score"></div>
+      <p class="sub" id="total-detail" style="text-align:center"></p>
+      <button class="btn center" id="total-copy-btn">전체 결과 한 번에 복사 (카톡용)</button>
+    </div>
+    <div style="margin-top:20px">
+      <p class="sub" style="margin-bottom:10px">이 영역 해설 — 맞은 문제도 한 번씩 읽어보세요!</p>
+      <div id="sec-explanations"></div>
+    </div>
+  </div>
+
+  <!-- ══════ 오답 클리닉 · 왜 틀렸을까 ══════ -->
+  <div class="card hidden" id="clinic-why-card">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" width="30" height="30" role="img" aria-label="영핏">
+        <rect width="40" height="40" rx="11" fill="#2F7C83"/>
+        <rect x="8.5" y="22" width="5.6" height="9.5" rx="2.2" fill="#FFF6E8"/>
+        <rect x="17.2" y="17" width="5.6" height="14.5" rx="2.2" fill="#FFF6E8" opacity="0.82"/>
+        <rect x="25.9" y="10.5" width="5.6" height="21" rx="2.2" fill="#FFF6E8"/>
+      </svg>
+      <div class="wordmark"><span class="n">영핏 지나티처</span></div>
+    </div>
+    <div class="progress"><span id="why-num"></span><span>오답 클리닉</span></div>
+    <div class="bar"><div id="why-bar"></div></div>
+    <div class="whybox" id="whybox"></div>
+    <div class="rulebox" id="rulebox"></div>
+    <button class="btn clinic center" id="why-next">이해했어요! 비슷한 문제 풀어보기</button>
+  </div>
+
+  <!-- ══════ 오답 클리닉 · 문제 ══════ -->
+  <div class="card hidden" id="clinic-card">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" width="30" height="30" role="img" aria-label="영핏">
+        <rect width="40" height="40" rx="11" fill="#2F7C83"/>
+        <rect x="8.5" y="22" width="5.6" height="9.5" rx="2.2" fill="#FFF6E8"/>
+        <rect x="17.2" y="17" width="5.6" height="14.5" rx="2.2" fill="#FFF6E8" opacity="0.82"/>
+        <rect x="25.9" y="10.5" width="5.6" height="21" rx="2.2" fill="#FFF6E8"/>
+      </svg>
+      <div class="wordmark"><span class="n">영핏 지나티처</span></div>
+    </div>
+    <div class="progress"><span id="cq-num"></span><span>오답 클리닉</span></div>
+    <div class="bar"><div id="cq-bar"></div></div>
+    <span class="srctag" id="cq-src"></span>
+    <div class="qtext" id="cq-text"></div>
+    <div id="cq-choices"></div>
+    <p class="keyhint" id="cq-keyhint">숫자키 1~4로도 선택할 수 있어요</p>
+  </div>
+
+  <!-- ══════ 오답 클리닉 결과 ══════ -->
+  <div class="card hidden" id="clinic-result-card">
+    <div class="logo">
+      <svg viewBox="0 0 40 40" width="30" height="30" role="img" aria-label="영핏">
+        <rect width="40" height="40" rx="11" fill="#2F7C83"/>
+        <rect x="8.5" y="22" width="5.6" height="9.5" rx="2.2" fill="#FFF6E8"/>
+        <rect x="17.2" y="17" width="5.6" height="14.5" rx="2.2" fill="#FFF6E8" opacity="0.82"/>
+        <rect x="25.9" y="10.5" width="5.6" height="21" rx="2.2" fill="#FFF6E8"/>
+      </svg>
+      <div class="wordmark"><span class="n">영핏 지나티처</span></div>
+    </div>
+    <h1 id="cr-title">오답 클리닉 완료!</h1>
+    <div class="score-big" id="cr-score"></div>
+    <p class="sub" id="cr-msg" style="text-align:center"></p>
+    <button class="btn center" id="cr-copy-btn">클리닉 결과 복사 (카톡용)</button>
+    <button class="btn center" id="cr-next-btn" style="background:#38699e"></button>
+    <button class="btn sub-btn center" id="cr-pick-btn">영역 선택으로 돌아가기</button>
+    <div style="margin-top:20px">
+      <p class="sub" style="margin-bottom:10px">클리닉 해설</p>
+      <div id="cr-explanations"></div>
+    </div>
+  </div>
+
+  <div class="saybar hidden" id="saybar">
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="#fff"></polygon>
+      <path d="M15.5 8.6a4.6 4.6 0 0 1 0 6.8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"></path>
+      <path d="M18.6 5.6a9 9 0 0 1 0 12.8" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <div><span class="lbl">정답 듣기</span><span class="txt" id="saytext"></span></div>
+  </div>
+
+  <div class="footer">
+    영핏 지나티처 · 영어를 핏하다<br>
+    두 글자가 손을 잡으면 한 소리! 아인이 화이팅!
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ══════════ 결과 기록 (영핏 공통 전송코드 v1 — 변경 금지) ══════════ */
+var ENGFIT_SUBMIT_URL = "https://script.google.com/macros/s/AKfycbz5IC3cEtaBGW10qZhrjwtjdtGugmcmYb4ZTHS4k-1LOqTRYzW-LfoAPyFB_ShjAqNp/exec";
+async function engfitSubmit(r) {
+  var body = JSON.stringify(r);
+  try {
+    var res = await fetch(ENGFIT_SUBMIT_URL, { method: "POST", body: body });
+    var j = await res.json();
+    return j.ok === true;
+  } catch (e) {
+    try {
+      await fetch(ENGFIT_SUBMIT_URL, { method: "POST", mode: "no-cors", body: body });
+      return true;
+    } catch (e2) { return false; }
+  }
+}
+
+
+/* ══════════ 개념 카드 15장 ══════════ */
+var TIPS = {};
+
+var A1 = "카드 1. b + l = 블! bl 소리";
+var A2 = "카드 2. f + l = 플! fl 소리";
+var A3 = "카드 3. flute는 fl + ute";
+var B1 = "카드 4. globe = 지구본 (둥근 지구 모형)";
+var B2 = "카드 5. glass = (유리)잔";
+var B3 = "카드 6. glue = 풀 (붙이는 것)";
+var C1 = "카드 7. s + l = 슬! sl 소리";
+var C2 = "카드 8. slide 미끄럼틀 · sled 썰매";
+var C3 = "카드 9. sleep 자다";
+var D1 = "카드 10. 하나를 말할 때는 앞에 a";
+var D2 = "카드 11. 아·에·이·오·우 소리로 시작하면 an";
+var D3 = "카드 12. an은 a와 n을 붙여서 한 낱말!";
+var E1 = "카드 13. 과일 낱말 — apple · orange · mango";
+var E2 = "카드 14. 과일 낱말 — pear · lemon · peach";
+var E3 = "카드 15. 수업에서 쓰는 말";
+
+TIPS[A1] =
+"영어에는 <b>두 글자가 손을 잡고 한 소리</b>를 내는 낱말이 있어요." +
+"<span class='ex'><b>b</b> + <b>l</b> = <b>블</b>!<br>" +
+"<b>bl</b>ack 검은 · <b>bl</b>ade 칼날 · <b>bl</b>ue 파란색</span>" +
+"b와 l 사이에 다른 글자가 들어가지 않아요. 언제나 <b>bl</b>이 붙어 다녀요!" +
+"<span class='ex'><b>bl</b>ack — 블랙 (검은)<br>" +
+"<b>bl</b>ade — 블레이드 (칼날)<br>" +
+"<b>bl</b>ue — 블루 (파란색)</span>" +
+"<span class='my'>아인이가 단어 테스트에서 <b>black · blade · blue</b> 세 개를 모두 맞혔어요!<br>" +
+"bl 소리는 이미 아주 잘 알고 있다는 뜻이에요. 아주 잘했어요!<br>" +
+"소리 내어 읽어 봐요 — <b>블</b>랙, <b>블</b>레이드, <b>블</b>루!</span>";
+
+TIPS[A2] =
+"이번에는 <b>f</b>와 <b>l</b>이 손을 잡았어요." +
+"<span class='ex'><b>f</b> + <b>l</b> = <b>플</b>!<br>" +
+"<b>fl</b>ag 깃발 · <b>fl</b>ame 불꽃 · <b>fl</b>ute 플루트</span>" +
+"입술을 살짝 물고 '<b>프</b>' 하고 바로 '<b>ㄹ</b>'을 이어 붙이면 <b>플</b> 소리가 나요." +
+"<span class='ex'><b>fl</b>ag — 플래그 (깃발)<br>" +
+"<b>fl</b>ame — 플레임 (불꽃)<br>" +
+"<b>fl</b>ute — 플루트</span>" +
+"<span class='my'>아인이가 <b>flag</b>와 <b>flame</b>을 정확하게 썼어요!<br>" +
+"둘 다 <b>fla</b>로 시작하죠? 이 두 개를 아니까 fl 소리는 잡은 거예요.<br>" +
+"이제 <b>flute</b> 하나만 카드 3에서 확실히 해요!</span>";
+
+TIPS[A3] =
+"<b>flute</b>(플루트)는 조금 특별해요. 소리와 글자가 살짝 다르거든요." +
+"<span class='ex'>소리는 '플<b>루</b>트'인데<br>" +
+"글자는 <b>fl</b> + <b>u</b> + <b>te</b> 예요.<br>" +
+"→ <b>flute</b></span>" +
+"가운데가 <b>a</b>가 아니라 <b>u</b>예요! 여기가 헷갈리기 쉬운 곳이랍니다." +
+"<span class='ex'><b>flute</b> ⭕ 플루트<br>" +
+"fl<b>a</b>te ✗ — 가운데를 a로 쓰면 안 돼요<br>" +
+"<b>flame</b>은 가운데가 <b>a</b>예요! (플<b>레</b>임)</span>" +
+"<span class='my'>단어 테스트 6번에서 <b>flate</b>라고 썼다가 <b>flute</b>로 스스로 고쳤어요. 정말 잘했어요!<br>" +
+"소리로 구별해요 — 플<b>레</b>임은 fl<b>a</b>me, 플<b>루</b>트는 fl<b>u</b>te.<br>" +
+"'<b>루</b>'가 들리면 <b>u</b>를 쓰기!</span>";
+
+TIPS[B1] =
+"이제 <b>gl</b> 삼형제예요. 셋 다 <b>g + l = 글</b> 소리로 시작해서 헷갈리기 쉬워요." +
+"<span class='ex'>첫째 — <b>globe</b> = <b>지구본</b><br>" +
+"둥근 지구 모형이에요. 교실에 있는 그 지구본!</span>" +
+"기억하는 방법이 있어요. <b>globe</b>에는 <b>o</b>가 <b>두 개</b> 들어 있어요." +
+"<span class='ex'>gl<b>o</b>be — o가 <b>동그란 지구</b>처럼 생겼죠?<br>" +
+"g-l-<b>o</b>-b-e, 다섯 글자!</span>" +
+"<span class='my'>단어 테스트 7번(지구본)에서 아인이가 처음에 다른 낱말을 썼다가 <b>globe</b>로 고쳤어요.<br>" +
+"고칠 줄 안다는 건 뜻을 알고 있다는 뜻이에요! 이제 짝만 확실히 맞추면 돼요.<br>" +
+"외우는 말: <b>동그란 지구본은 globe!</b> o를 보면 지구를 떠올려요.</span>";
+
+TIPS[B2] =
+"<b>gl</b> 삼형제 둘째예요." +
+"<span class='ex'><b>glass</b> = <b>(유리)잔</b><br>" +
+"물이나 우유를 담아 마시는 유리컵이에요.</span>" +
+"기억하는 방법! <b>glass</b>에는 <b>s</b>가 <b>두 개</b> 있어요." +
+"<span class='ex'>gla<b>ss</b> — 유리가 <b>쨍그랑</b> 소리를 내죠? <b>ss</b>!<br>" +
+"g-l-a-<b>s</b>-<b>s</b>, 다섯 글자!</span>" +
+"<span class='ex'>a glass of water = 물 한 잔<br>" +
+"a glass of milk = 우유 한 잔</span>" +
+"<span class='my'>단어 테스트 8번에서 아인이가 <b>glass</b>를 정확하게 썼어요!<br>" +
+"이제 삼형제 중 둘을 알아요 — 지구본은 <b>globe</b>(o 두 개), 유리잔은 <b>glass</b>(s 두 개).<br>" +
+"글자 두 개가 겹치는 게 힌트예요!</span>";
+
+TIPS[B3] =
+"<b>gl</b> 삼형제 막내예요." +
+"<span class='ex'><b>glue</b> = <b>풀</b><br>" +
+"종이를 붙일 때 쓰는 끈적끈적한 풀이에요.</span>" +
+"기억하는 방법! <b>glue</b>는 가장 <b>짧아요</b>. 네 글자예요." +
+"<span class='ex'>gl<b>ue</b> — 끝이 <b>ue</b>! blue와 똑같은 끝이에요.<br>" +
+"bl<b>ue</b> 파란색 / gl<b>ue</b> 풀 — 앞 글자만 달라요!</span>" +
+"<span class='my'>삼형제를 한 번에 정리해요.<br>" +
+"<b>globe</b> 지구본 — <b>o</b>가 두 개 (동그란 지구)<br>" +
+"<b>glass</b> 유리잔 — <b>s</b>가 두 개 (쨍그랑)<br>" +
+"<b>glue</b> 풀 — 가장 짧고 끝이 <b>ue</b> (blue와 짝!)<br><br>" +
+"단어 테스트에서 이 셋이 서로 자리를 바꿔 들어갔었어요. 낱말은 전부 알고 있었답니다!<br>" +
+"이제 <b>겹치는 글자</b>로 구별하면 절대 안 헷갈려요.</span>";
+
+TIPS[C1] =
+"<b>s</b>와 <b>l</b>이 손을 잡으면 <b>슬</b> 소리가 나요." +
+"<span class='ex'><b>s</b> + <b>l</b> = <b>슬</b>!<br>" +
+"<b>sl</b>ide 미끄럼틀 · <b>sl</b>ed 썰매 · <b>sl</b>eep 자다</span>" +
+"셋 다 <b>미끄러지듯</b> 부드러운 느낌이 있어요. 재미있죠?" +
+"<span class='ex'><b>sl</b>ide — 슬라이드 (미끄럼틀)<br>" +
+"<b>sl</b>ed — 슬레드 (썰매)<br>" +
+"<b>sl</b>eep — 슬립 (자다)</span>" +
+"<span class='my'>아인이가 <b>sled</b>와 <b>sleep</b>을 정확하게 썼어요!<br>" +
+"sl 소리는 잘 알고 있어요. 이제 <b>slide</b>만 카드 8에서 확실히 해요.<br>" +
+"소리 내어 읽어 봐요 — <b>슬</b>라이드, <b>슬</b>레드, <b>슬</b>립!</span>";
+
+TIPS[C2] =
+"겨울에 타는 두 가지를 같이 외워요." +
+"<span class='ex'><b>slide</b> = <b>미끄럼틀</b> — 놀이터에서 <b>주르륵</b>!<br>" +
+"s-l-<b>i</b>-d-e, 끝에 <b>e</b>가 붙어요.</span>" +
+"<span class='ex'><b>sled</b> = <b>썰매</b> — 눈 위에서 타는 것<br>" +
+"s-l-<b>e</b>-d, 네 글자! 끝에 e가 없어요.</span>" +
+"두 낱말의 차이는 딱 하나예요." +
+"<span class='ex'>sl<b>i</b>de — 가운데가 <b>i</b>, 끝에 <b>e</b> 있음 (다섯 글자)<br>" +
+"sl<b>e</b>d — 가운데가 <b>e</b>, 끝에 e 없음 (네 글자)</span>" +
+"<span class='my'>단어 테스트 10번(미끄럼틀)에서 <b>slide</b>로 고쳐 썼어요. 잘했어요!<br>" +
+"기억하는 말: 미끄럼틀은 <b>길어서</b> 글자도 길어요(slide, 5글자).<br>" +
+"썰매는 <b>짧아서</b> 글자도 짧아요(sled, 4글자)!</span>";
+
+TIPS[C3] =
+"<b>sleep</b>은 '<b>자다</b>'예요. 가운데에 <b>e</b>가 <b>두 개</b> 들어가요." +
+"<span class='ex'>sl<b>ee</b>p — <b>ee</b>는 '<b>이~</b>' 하고 길게 소리 나요.<br>" +
+"슬<b>리</b>~프</span>" +
+"<b>ee</b>가 들어간 낱말은 소리가 길어져요. 같이 알아 둬요!" +
+"<span class='ex'>sl<b>ee</b>p 자다 · s<b>ee</b> 보다 · tr<b>ee</b> 나무 · thr<b>ee</b> 셋</span>" +
+"<span class='my'>아인이가 <b>sleep</b>을 정확하게 썼어요!<br>" +
+"sl 삼형제 정리 — <b>slide</b> 미끄럼틀(i) · <b>sled</b> 썰매(e 하나) · <b>sleep</b> 자다(e 두 개)<br>" +
+"가운데 글자만 보면 바로 구별돼요!</span>";
+
+TIPS[D1] =
+"'사과 <b>하나</b>', '망고 <b>하나</b>'처럼 하나를 말할 때 낱말 앞에 <b>a</b>를 붙여요." +
+"<span class='ex'><b>a</b> mango — 망고 하나<br>" +
+"<b>a</b> pear — 배 하나<br>" +
+"<b>a</b> lemon — 레몬 하나<br>" +
+"<b>a</b> peach — 복숭아 하나</span>" +
+"문장으로 만들면 이렇게 돼요." +
+"<span class='ex'>I eat <b>a</b> mango. — 나는 망고를 먹는다.<br>" +
+"I eat <b>a</b> pear. — 나는 배를 먹는다.</span>" +
+"<span class='my'>아인이가 워크북 Pattern Review에서 <b>I eat a mango.</b>와 <b>I eat a pear.</b>를 정확하게 썼어요!<br>" +
+"a를 붙이는 것은 이미 잘 알고 있어요. 아주 잘했어요!<br>" +
+"이제 <b>an</b>을 쓰는 때만 카드 11에서 배우면 돼요.</span>";
+
+TIPS[D2] =
+"그런데 어떤 낱말 앞에서는 <b>a</b> 대신 <b>an</b>을 써요. 규칙은 아주 쉬워요!" +
+"<span class='ex'>낱말이 <b>아 · 에 · 이 · 오 · 우</b> 소리로 시작하면 → <b>an</b><br>" +
+"<b>an</b> <b>a</b>pple — <b>애</b>플 (아 소리!)<br>" +
+"<b>an</b> <b>o</b>range — <b>오</b렌지 (오 소리!)</span>" +
+"<span class='ex'>그 밖에는 → <b>a</b><br>" +
+"<b>a</b> mango — <b>ㅁ</b>앙고<br>" +
+"<b>a</b> pear — <b>ㅍ</b>에어<br>" +
+"<b>a</b> lemon — <b>ㄹ</b>레몬</span>" +
+"왜 그럴까요? <b>a apple</b>이라고 하면 '아아플'처럼 붙어서 말하기 어려워요. 그래서 <b>n</b>을 하나 넣어 준 거예요!" +
+"<span class='my'>과일 낱말로 정리해요.<br>" +
+"<b>an</b> apple · <b>an</b> orange (아, 오 소리)<br>" +
+"<b>a</b> mango · <b>a</b> pear · <b>a</b> lemon · <b>a</b> peach<br><br>" +
+"소리 내어 읽어 보면 어느 쪽이 편한지 바로 느껴져요!</span>";
+
+TIPS[D3] =
+"아주 중요한 것 하나! <b>an</b>은 <b>a</b>와 <b>n</b>을 <b>붙여서</b> 한 낱말로 써요." +
+"<span class='ex'><b>an apple</b> ⭕ — an과 apple 사이만 띄어요<br>" +
+"a n apple ✗ — a와 n을 떼어 쓰면 안 돼요<br>" +
+"anapple ✗ — an과 apple을 붙이면 안 돼요</span>" +
+"띄어 쓰는 자리는 <b>딱 한 군데</b>예요." +
+"<span class='ex'>I / eat / <b>an</b> / apple.<br>" +
+"낱말 네 개를 하나씩 띄어 써요!</span>" +
+"<span class='my'>워크북 Pattern Practice에서 <b>I eat a n apple.</b>이라고 썼었죠?<br>" +
+"낱말은 전부 맞았고 <b>a와 n을 붙이기만</b> 하면 완성이었어요! 정말 아깝게 놓친 거예요.<br>" +
+"이렇게 기억해요 — <b>an은 두 글자가 붙어서 한 낱말!</b><br>" +
+"쓰고 나서 <b>an</b>이 붙어 있는지 한 번만 확인해요.</span>";
+
+TIPS[E1] =
+"Sweet Fruits에서 배운 과일 낱말을 정리해요. 먼저 세 개!" +
+"<span class='ex'><b>apple</b> 사과 — a-p-<b>p</b>-l-e, <b>p</b>가 두 개!<br>" +
+"<b>orange</b> 오렌지 — o-r-a-n-g-<b>e</b>, 끝에 <b>e</b>를 꼭!<br>" +
+"<b>mango</b> 망고 — m-a-n-g-<b>o</b>, 끝이 <b>o</b></span>" +
+"그리고 '과일'이라는 낱말도 함께 외워요." +
+"<span class='ex'><b>fruit</b> 과일 — f-r-<b>u-i</b>-t<br>" +
+"가운데가 <b>ui</b> 순서예요! (iu가 아니에요)</span>" +
+"<span class='my'>워크북에서 <b>orange</b>를 쓸 때 끝의 <b>e</b>가 빠졌었어요. 나머지 글자는 완벽했답니다!<br>" +
+"<b>fruit</b>도 가운데 <b>ui</b>만 맞추면 돼요.<br>" +
+"소리 내며 써 봐요 — 오-렌-지-<b>e</b>! 프-<b>루</b>-트!</span>";
+
+TIPS[E2] =
+"과일 낱말 세 개 더예요. 이 셋은 모양이 비슷해서 조심해요." +
+"<span class='ex'><b>pear</b> 배 — p-<b>ear</b> (끝이 <b>ear</b>, 귀 ear와 같아요!)<br>" +
+"<b>peach</b> 복숭아 — p-<b>each</b> (끝이 <b>ach</b>)<br>" +
+"<b>lemon</b> 레몬 — l-e-m-o-n</span>" +
+"<b>pear</b>와 <b>peach</b>는 앞이 똑같이 <b>pea</b>예요! 뒤를 잘 봐야 해요." +
+"<span class='ex'>p-e-a-<b>r</b> → <b>pear</b> 배<br>" +
+"p-e-a-<b>ch</b> → <b>peach</b> 복숭아</span>" +
+"<span class='my'>워크북 Word Power에서 3번 그림(배)을 보고 <b>pear</b>를 정확하게 골랐어요!<br>" +
+"그리고 Word Review에서 <b>pear · lemon · mango · orange</b> 네 개를 다 썼답니다. 아주 잘했어요!<br>" +
+"기억법: <b>배(pear)에는 귀(ear)가 있다!</b></span>";
+
+TIPS[E3] =
+"수업 시간에 선생님이 자주 쓰는 말이에요. 통째로 외워요!" +
+"<span class='ex'><b>Are you ready?</b> — 준비됐어?<br>" +
+"<b>Come on!</b> — 어서!<br>" +
+"<b>Check this out!</b> — 이거 한번 확인해봐!<br>" +
+"<b>Here we go!</b> — 자, 시작이다!</span>" +
+"낱말 하나하나 외우지 말고 <b>덩어리로</b> 외우는 게 훨씬 쉬워요." +
+"<span class='ex'>Are <b>you</b> ready? — 물어보는 말이니까 <b>you</b>(너)<br>" +
+"<b>Come</b> on! — '오다'라는 뜻의 <b>come</b><br>" +
+"Check <b>this</b> out! — '이것'이라는 뜻의 <b>this</b><br>" +
+"Here we <b>go</b>! — '가다'라는 뜻의 <b>go</b></span>" +
+"<span class='my'>아인이가 <b>Check this out!</b>과 <b>Here we go!</b>를 정확하게 썼어요!<br>" +
+"<b>Are you ready?</b>와 <b>Come on!</b>도 스스로 고쳐 냈고요. 정말 잘했어요.<br>" +
+"네 문장을 소리 내어 세 번씩 말해 보면 입에 딱 붙어요!</span>";
+
+/* ══════════ 문제 30문항 (5영역 · 카드 1장당 2문항) ══════════ */
+var ALL = [
+/* ───────── 1영역 · bl / fl 소리 (1~6) ───────── */
+{"src":A1,"q":"'검은, 검정'을 뜻하는 낱말을 고르세요.","choices":["black","blak","balck","blace"],"answer":"black","exp":"정답은 <b class='en'>black</b>!<br>· <b>bl</b>(블) + <b>ack</b> = black<br>· <b>blak</b>은 정답이 아니에요 — 끝이 <b>ck</b>예요. c와 k가 함께 와요.<br>· <b>balck</b>은 정답이 아니에요 — b 다음에 바로 <b>l</b>이 와요. b와 l 사이에 다른 글자가 들어가지 않아요!<br>· <b>blace</b>는 정답이 아니에요 — 끝이 ck예요.<br>· 아인이가 단어 테스트 1번에서 <b>black</b>을 정확하게 썼어요! 잘했어요."},
+{"src":A1,"q":"'(칼 등의) 날'을 뜻하는 낱말을 고르세요.","choices":["blade","balde","blaid","bleid"],"answer":"blade","exp":"정답은 <b class='en'>blade</b>!<br>· <b>bl</b>(블) + <b>ade</b> = blade<br>· <b>balde</b>는 정답이 아니에요 — b와 l이 붙어 다녀요. 사이에 a가 들어가지 않아요!<br>· <b>blaid</b>와 <b>bleid</b>는 정답이 아니에요 — 가운데는 <b>a</b> 하나예요.<br>· 아인이가 단어 테스트 2번에서 <b>blade</b>를 정확하게 썼어요!<br>· bl 친구들: <b>bl</b>ack · <b>bl</b>ade · <b>bl</b>ue"},
+{"src":A2,"q":"'깃발'을 뜻하는 낱말을 고르세요.","choices":["flag","falg","flage","flak"],"answer":"flag","exp":"정답은 <b class='en'>flag</b>!<br>· <b>fl</b>(플) + <b>ag</b> = flag<br>· <b>falg</b>는 정답이 아니에요 — f와 l이 붙어 다녀요!<br>· <b>flage</b>는 정답이 아니에요 — 끝에 e를 붙이지 않아요. f-l-a-g 네 글자!<br>· <b>flak</b>은 정답이 아니에요 — 끝은 <b>g</b>예요.<br>· 아인이가 단어 테스트 4번에서 <b>flag</b>를 정확하게 썼어요!"},
+{"src":A2,"q":"'불길, 불꽃'을 뜻하는 낱말을 고르세요.","choices":["flame","flaim","falme","flam"],"answer":"flame","exp":"정답은 <b class='en'>flame</b>!<br>· <b>fl</b>(플) + <b>ame</b> = flame<br>· <b>flaim</b>은 정답이 아니에요 — 가운데는 <b>a</b> 하나이고 끝에 <b>e</b>가 와요.<br>· <b>falme</b>은 정답이 아니에요 — f와 l이 붙어 다녀요!<br>· <b>flam</b>은 정답이 아니에요 — 끝에 <b>e</b>가 필요해요.<br>· 아인이가 단어 테스트 5번에서 <b>flame</b>을 정확하게 썼어요! 잘했어요."},
+{"src":A3,"q":"'플루트'를 뜻하는 낱말을 고르세요.","choices":["flute","flate","fluet","floot"],"answer":"flute","exp":"정답은 <b class='en'>flute</b>!<br>· <b>fl</b> + <b>u</b> + <b>te</b> = flute. 가운데가 <b>u</b>예요!<br>· <b>flate</b>는 정답이 아니에요 — 가운데를 <b>a</b>로 쓰면 안 돼요. 플<b>루</b>트니까 <b>u</b>!<br>· <b>fluet</b>은 정답이 아니에요 — 글자 순서가 바뀌었어요. u 다음에 <b>te</b>예요.<br>· <b>floot</b>은 정답이 아니에요 — oo가 아니라 <b>u</b> 하나예요.<br>· 단어 테스트 6번에서 flate라고 썼다가 <b>flute</b>로 스스로 고쳤어요. 정말 잘했어요!<br>· 구별법: 플<b>레</b>임은 fl<b>a</b>me / 플<b>루</b>트는 fl<b>u</b>te"},
+{"src":A3,"q":"'파란, 파란색'을 뜻하는 낱말을 고르세요.","choices":["blue","bule","bluu","blew"],"answer":"blue","exp":"정답은 <b class='en'>blue</b>!<br>· <b>bl</b>(블) + <b>ue</b> = blue<br>· <b>bule</b>은 정답이 아니에요 — b 다음에 바로 <b>l</b>이에요!<br>· <b>bluu</b>는 정답이 아니에요 — 끝이 <b>ue</b> 순서예요.<br>· <b>blew</b>는 소리는 같지만 '불었다'라는 다른 낱말이에요.<br>· 아인이가 단어 테스트 3번에서 <b>blue</b>를 정확하게 썼어요!<br>· 1영역 끝! <b>bl은 블, fl은 플</b> — 두 글자가 손을 잡고 한 소리를 내요."},
+/* ───────── 2영역 · gl 삼형제 (7~12) ───────── */
+{"src":B1,"q":"'지구본'을 뜻하는 낱말을 고르세요.","choices":["globe","glass","glue","glob"],"answer":"globe","exp":"정답은 <b class='en'>globe</b>!<br>· <b>globe</b>는 둥근 지구 모형이에요. gl<b>o</b>be — <b>o</b>가 동그란 지구처럼 생겼죠?<br>· <b>glass</b>는 '(유리)잔'이에요. s가 두 개!<br>· <b>glue</b>는 '풀'이에요. 가장 짧아요.<br>· <b>glob</b>은 정답이 아니에요 — 끝에 <b>e</b>가 필요해요. g-l-o-b-<b>e</b> 다섯 글자!<br>· 외우는 말: <b>동그란 지구본은 globe!</b>"},
+{"src":B2,"q":"'(유리)잔'을 뜻하는 낱말을 고르세요.","choices":["glass","globe","glue","glas"],"answer":"glass","exp":"정답은 <b class='en'>glass</b>!<br>· <b>glass</b>는 물을 담아 마시는 유리컵이에요. gla<b>ss</b> — 유리가 <b>쨍그랑</b>! <b>s</b>가 두 개예요.<br>· <b>globe</b>는 '지구본'이에요. o가 두 개!<br>· <b>glue</b>는 '풀'이에요.<br>· <b>glas</b>는 정답이 아니에요 — <b>s</b>를 두 번 써요.<br>· 아인이가 단어 테스트 8번에서 <b>glass</b>를 정확하게 썼어요! 잘했어요.<br>· a <b>glass</b> of water = 물 한 잔"},
+{"src":B3,"q":"'풀 (종이를 붙이는 것)'을 뜻하는 낱말을 고르세요.","choices":["glue","globe","glass","gule"],"answer":"glue","exp":"정답은 <b class='en'>glue</b>!<br>· <b>glue</b>는 종이를 붙이는 끈적끈적한 풀이에요. 삼형제 중 가장 <b>짧아요</b>(네 글자).<br>· <b>globe</b>는 '지구본'이에요.<br>· <b>glass</b>는 '(유리)잔'이에요.<br>· <b>gule</b>은 정답이 아니에요 — g 다음에 바로 <b>l</b>이 와요!<br>· 기억법: <b>bl</b>ue(파란색)와 <b>gl</b>ue(풀)는 끝이 똑같이 <b>ue</b>예요. 앞 글자만 달라요!"},
+{"src":B1,"q":"<b class='en'>globe</b>의 뜻으로 알맞은 것을 고르세요.","choices":["지구본","(유리)잔","풀","깃발"],"answer":"지구본","exp":"정답은 <b>지구본</b>!<br>· <b class='en'>globe</b> = 지구본. 교실에 있는 둥근 지구 모형이에요.<br>· <b>(유리)잔</b>은 <b class='en'>glass</b>예요.<br>· <b>풀</b>은 <b class='en'>glue</b>예요.<br>· <b>깃발</b>은 <b class='en'>flag</b>예요.<br>· 힌트: gl<b>o</b>be의 <b>o</b>를 보면 동그란 지구가 떠올라요!"},
+{"src":B2,"q":"<b class='en'>glass</b>의 뜻으로 알맞은 것을 고르세요.","choices":["(유리)잔","지구본","풀","불꽃"],"answer":"(유리)잔","exp":"정답은 <b>(유리)잔</b>!<br>· <b class='en'>glass</b> = (유리)잔. 물이나 우유를 담아 마시는 컵이에요.<br>· <b>지구본</b>은 <b class='en'>globe</b>예요.<br>· <b>풀</b>은 <b class='en'>glue</b>예요.<br>· <b>불꽃</b>은 <b class='en'>flame</b>이에요.<br>· 힌트: gla<b>ss</b>의 <b>s</b>가 두 개! 유리가 쨍그랑 하는 소리예요."},
+{"src":B3,"q":"<b class='en'>glue</b>의 뜻으로 알맞은 것을 고르세요.","choices":["풀","지구본","(유리)잔","썰매"],"answer":"풀","exp":"정답은 <b>풀</b>!<br>· <b class='en'>glue</b> = 풀. 종이를 붙일 때 쓰는 것이에요.<br>· <b>지구본</b>은 <b class='en'>globe</b>예요.<br>· <b>(유리)잔</b>은 <b class='en'>glass</b>예요.<br>· <b>썰매</b>는 <b class='en'>sled</b>예요.<br>· 2영역 끝! gl 삼형제를 한 번에 정리해요.<br><b>globe</b> 지구본(o 두 개) · <b>glass</b> 유리잔(s 두 개) · <b>glue</b> 풀(가장 짧음)<br>· 겹치는 글자로 구별하면 절대 안 헷갈려요!"},
+/* ───────── 3영역 · sl 소리 (13~18) ───────── */
+{"src":C1,"q":"'미끄럼틀'을 뜻하는 낱말을 고르세요.","choices":["slide","slid","silde","sleid"],"answer":"slide","exp":"정답은 <b class='en'>slide</b>!<br>· <b>sl</b>(슬) + <b>ide</b> = slide. 놀이터에서 주르륵 미끄러지는 것이에요.<br>· <b>slid</b>는 정답이 아니에요 — 끝에 <b>e</b>가 필요해요. s-l-i-d-<b>e</b> 다섯 글자!<br>· <b>silde</b>는 정답이 아니에요 — s 다음에 바로 <b>l</b>이 와요!<br>· <b>sleid</b>는 정답이 아니에요 — 가운데는 <b>i</b> 하나예요.<br>· 단어 테스트 10번에서 <b>slide</b>로 고쳐 썼어요. 잘했어요!"},
+{"src":C2,"q":"'썰매'를 뜻하는 낱말을 고르세요.","choices":["sled","slid","slede","seld"],"answer":"sled","exp":"정답은 <b class='en'>sled</b>!<br>· <b>sl</b>(슬) + <b>ed</b> = sled. 눈 위에서 타는 썰매예요. <b>네 글자</b>!<br>· <b>slid</b>는 정답이 아니에요 — 가운데가 <b>e</b>예요.<br>· <b>slede</b>는 정답이 아니에요 — 끝에 e를 붙이지 않아요.<br>· <b>seld</b>는 정답이 아니에요 — s 다음에 바로 <b>l</b>이에요!<br>· 아인이가 단어 테스트 11번에서 <b>sled</b>를 정확하게 썼어요!<br>· 구별법: 미끄럼틀은 길어서 <b>slide</b>(5글자), 썰매는 짧아서 <b>sled</b>(4글자)!"},
+{"src":C3,"q":"'자다'를 뜻하는 낱말을 고르세요.","choices":["sleep","slep","sleap","slip"],"answer":"sleep","exp":"정답은 <b class='en'>sleep</b>!<br>· <b>sl</b>(슬) + <b>eep</b> = sleep. 가운데 <b>e</b>가 <b>두 개</b>예요!<br>· <b>slep</b>은 정답이 아니에요 — e를 두 번 써야 '슬<b>리</b>~프'로 길게 소리 나요.<br>· <b>sleap</b>은 정답이 아니에요 — <b>ee</b> 순서예요.<br>· <b>slip</b>은 '미끄러지다'라는 다른 낱말이에요.<br>· 아인이가 단어 테스트 12번에서 <b>sleep</b>을 정확하게 썼어요!<br>· <b>ee</b> 친구들: sl<b>ee</b>p · s<b>ee</b> · tr<b>ee</b> · thr<b>ee</b>"},
+{"src":C1,"q":"<b class='en'>slide</b>의 뜻으로 알맞은 것을 고르세요.","choices":["미끄럼틀","썰매","자다","풀"],"answer":"미끄럼틀","exp":"정답은 <b>미끄럼틀</b>!<br>· <b class='en'>slide</b> = 미끄럼틀. 놀이터에서 주르륵!<br>· <b>썰매</b>는 <b class='en'>sled</b>예요.<br>· <b>자다</b>는 <b class='en'>sleep</b>이에요.<br>· <b>풀</b>은 <b class='en'>glue</b>예요.<br>· 힌트: 미끄럼틀은 <b>길어요</b>. 그래서 글자도 다섯 개(slide)!"},
+{"src":C2,"q":"<b class='en'>sled</b>의 뜻으로 알맞은 것을 고르세요.","choices":["썰매","미끄럼틀","자다","깃발"],"answer":"썰매","exp":"정답은 <b>썰매</b>!<br>· <b class='en'>sled</b> = 썰매. 눈 위에서 타는 것이에요.<br>· <b>미끄럼틀</b>은 <b class='en'>slide</b>예요.<br>· <b>자다</b>는 <b class='en'>sleep</b>이에요.<br>· <b>깃발</b>은 <b class='en'>flag</b>예요.<br>· 힌트: 썰매는 <b>짧아요</b>. 그래서 글자도 네 개(sled)!"},
+{"src":C3,"q":"다음 중 <b>sl 소리</b>로 시작하지 <b>않는</b> 낱말을 고르세요.","choices":["blue","slide","sled","sleep"],"answer":"blue","exp":"정답은 <b class='en'>blue</b>예요!<br>· <b>blue</b>는 <b>bl</b>(블) 소리로 시작해요. sl이 아니에요.<br>· <b>slide</b> · <b>sled</b> · <b>sleep</b>은 모두 <b>sl</b>(슬) 소리로 시작해요.<br>· 소리 내어 읽어 보면 바로 알 수 있어요 — <b>블</b>루 / <b>슬</b>라이드 · <b>슬</b>레드 · <b>슬</b>립<br>· 3영역 끝! 두 글자가 손을 잡는 소리를 세 개 배웠어요 — <b>bl</b> · <b>fl</b> · <b>gl</b> · <b>sl</b>!"},
+/* ───────── 4영역 · a / an (19~24) ───────── */
+{"src":D1,"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>I eat ( ) mango.</b><span class='ko'>(나는 망고를 먹는다.)</span>","choices":["a","an","and","on"],"answer":"a","exp":"정답은 <b>a</b>!<br>· <b>mango</b>는 '<b>ㅁ</b>앙고'로 시작해요. 아·에·이·오·우 소리가 아니니까 <b>a</b>를 써요.<br>· <b>an</b>은 정답이 아니에요 — an은 아·에·이·오·우 소리 앞에만 써요.<br>· <b>and</b>는 '그리고', <b>on</b>은 '~위에'라는 다른 낱말이에요.<br>· 아인이가 워크북에서 <b>I eat a mango.</b>를 정확하게 썼어요! 잘했어요."},
+{"src":D1,"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>I eat ( ) pear.</b><span class='ko'>(나는 배를 먹는다.)</span>","choices":["a","an","the","at"],"answer":"a","exp":"정답은 <b>a</b>!<br>· <b>pear</b>는 '<b>ㅍ</b>에어'로 시작해요. 아·에·이·오·우 소리가 아니니까 <b>a</b>!<br>· <b>an</b>은 정답이 아니에요 — pear는 p 소리로 시작해요.<br>· <b>the</b>와 <b>at</b>은 여기에 어울리지 않아요.<br>· 아인이가 워크북 Pattern Review에서 <b>I eat a pear.</b>를 정확하게 썼어요!<br>· a를 쓰는 과일: <b>a</b> mango · <b>a</b> pear · <b>a</b> lemon · <b>a</b> peach"},
+{"src":D2,"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>I eat ( ) apple.</b><span class='ko'>(나는 사과를 먹는다.)</span>","choices":["an","a","and","in"],"answer":"an","exp":"정답은 <b>an</b>!<br>· <b>apple</b>은 '<b>애</b>플'로 시작해요. <b>아</b> 소리로 시작하니까 <b>an</b>을 써요!<br>· <b>a</b>는 정답이 아니에요 — 'a apple'이라고 하면 '아아플'처럼 붙어서 말하기 어려워요. 그래서 <b>n</b>을 넣어 준 거예요.<br>· <b>and</b>는 '그리고', <b>in</b>은 '~안에'라는 다른 낱말이에요.<br>· 워크북 Pattern Practice에 나왔던 문장이에요!<br>· 소리 내어 읽어 봐요 — <b>안 애플</b>! 훨씬 부드럽죠?"},
+{"src":D2,"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>I eat ( ) orange.</b><span class='ko'>(나는 오렌지를 먹는다.)</span>","choices":["an","a","of","or"],"answer":"an","exp":"정답은 <b>an</b>!<br>· <b>orange</b>는 '<b>오</b>렌지'로 시작해요. <b>오</b> 소리니까 <b>an</b>!<br>· <b>a</b>는 정답이 아니에요 — 오·아·에·이·우 소리 앞에는 an을 써요.<br>· <b>of</b>와 <b>or</b>는 여기에 어울리지 않아요.<br>· an을 쓰는 과일은 딱 두 개예요 — <b>an</b> apple(아 소리), <b>an</b> orange(오 소리)!<br>· 나머지 과일은 전부 <b>a</b>랍니다."},
+{"src":D3,"q":"<b>바르게</b> 쓴 것을 고르세요.<span class='ko'>(사과 하나)</span>","choices":["an apple","a n apple","a apple","anapple"],"answer":"an apple","exp":"정답은 <b class='en'>an apple</b>!<br>· <b>an</b>은 a와 n을 <b>붙여서</b> 한 낱말이에요. 그리고 apple 앞에서 한 번만 띄어 써요.<br>· <b>a n apple</b>은 정답이 아니에요 — a와 n을 떼어 쓰면 안 돼요. 꼭 붙여 주세요!<br>· <b>a apple</b>은 정답이 아니에요 — apple은 아 소리로 시작해서 <b>an</b>이 필요해요.<br>· <b>anapple</b>은 정답이 아니에요 — an과 apple 사이는 띄어 써요.<br>· 워크북에서 <b>a n apple</b>이라고 썼었죠? 낱말은 전부 맞았고 <b>a와 n을 붙이기만</b> 하면 완성이었어요!<br>· 기억해요: <b>an은 두 글자가 붙어서 한 낱말!</b>"},
+{"src":D3,"q":"우리말에 맞게 <b>바르게</b> 쓴 문장을 고르세요.<br><b>나는 오렌지를 먹는다.</b>","choices":["I eat an orange.","I eat a orange.","I eat a n orange.","I eat anorange."],"answer":"I eat an orange.","exp":"정답은 <b class='en'>I eat an orange.</b><br>· 낱말 네 개를 하나씩 띄어 써요 — <b>I / eat / an / orange.</b><br>· <b>I eat a orange.</b>는 정답이 아니에요 — orange는 <b>오</b> 소리라서 <b>an</b>이에요.<br>· <b>I eat a n orange.</b>는 정답이 아니에요 — a와 n을 붙여 <b>an</b>으로 써요.<br>· <b>I eat anorange.</b>는 정답이 아니에요 — an과 orange 사이는 띄어 써요.<br>· 4영역 끝! <b>아·에·이·오·우 소리면 an</b>, 그 밖에는 <b>a</b>예요."},
+/* ───────── 5영역 · 과일 낱말 + 수업 표현 (25~30) ───────── */
+{"src":E1,"q":"'과일'을 뜻하는 낱말을 고르세요.","choices":["fruit","friut","frute","fruite"],"answer":"fruit","exp":"정답은 <b class='en'>fruit</b>!<br>· f-r-<b>u-i</b>-t. 가운데가 <b>ui</b> 순서예요!<br>· <b>friut</b>은 정답이 아니에요 — i와 u의 순서가 바뀌었어요. <b>u</b>가 먼저예요.<br>· <b>frute</b>는 정답이 아니에요 — <b>i</b>가 빠졌어요.<br>· <b>fruite</b>는 정답이 아니에요 — 끝에 e를 붙이지 않아요. 다섯 글자!<br>· 워크북 Choose and write 1번에 나왔던 낱말이에요.<br>· 외우는 말: <b>프-루-이-트</b>, u 다음에 i!"},
+{"src":E1,"q":"'오렌지'를 뜻하는 낱말을 고르세요.","choices":["orange","orang","oranje","orenge"],"answer":"orange","exp":"정답은 <b class='en'>orange</b>!<br>· o-r-a-n-g-<b>e</b>. 끝에 <b>e</b>를 꼭 붙여요!<br>· <b>orang</b>은 정답이 아니에요 — 끝의 <b>e</b>가 빠졌어요.<br>· <b>oranje</b>는 정답이 아니에요 — j가 아니라 <b>g</b>예요.<br>· <b>orenge</b>는 정답이 아니에요 — 가운데는 <b>a</b>예요.<br>· 워크북에서 <b>orang</b>이라고 썼었죠? 다섯 글자가 완벽했고 <b>e</b> 하나만 더하면 되는 거였어요!<br>· 소리 내며 써 봐요 — 오-렌-지-<b>e</b>!"},
+{"src":E2,"q":"'배(과일)'를 뜻하는 낱말을 고르세요.","choices":["pear","peach","pare","peer"],"answer":"pear","exp":"정답은 <b class='en'>pear</b>!<br>· p + <b>ear</b> = pear. 끝이 <b>ear</b>예요. '귀'를 뜻하는 ear와 똑같아요!<br>· <b>peach</b>는 '<b>복숭아</b>'예요. 앞은 똑같이 pea지만 끝이 <b>ch</b>랍니다.<br>· <b>pare</b>는 정답이 아니에요 — 글자 순서가 달라요. p-e-<b>a</b>-<b>r</b>예요.<br>· <b>peer</b>는 다른 낱말이에요.<br>· 아인이가 워크북 Word Power 3번에서 <b>pear</b>를 정확하게 골랐어요!<br>· 기억법: <b>배(pear)에는 귀(ear)가 있다!</b>"},
+{"src":E2,"q":"'레몬'을 뜻하는 낱말을 고르세요.","choices":["lemon","lemmon","limon","lemone"],"answer":"lemon","exp":"정답은 <b class='en'>lemon</b>!<br>· l-e-m-o-n. 다섯 글자예요.<br>· <b>lemmon</b>은 정답이 아니에요 — m을 두 번 쓰지 않아요.<br>· <b>limon</b>은 정답이 아니에요 — 첫 소리 뒤는 <b>e</b>예요.<br>· <b>lemone</b>은 정답이 아니에요 — 끝에 e를 붙이지 않아요.<br>· 아인이가 워크북 Word Review에서 <b>lemon</b>을 정확하게 썼어요!<br>· 참고: 레몬은 <b>a lemon</b>이에요. l 소리로 시작하니까 a를 써요."},
+{"src":E3,"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>Are ( ) ready?</b><span class='ko'>(준비됐어?)</span>","choices":["you","yeah","your","yes"],"answer":"you","exp":"정답은 <b class='en'>you</b>!<br>· <b>Are you ready?</b> = 준비됐어? '너'를 뜻하는 <b>you</b>가 들어가요.<br>· <b>yeah</b>는 '응, 그래'라고 <b>대답</b>할 때 쓰는 말이에요. 물어볼 때는 쓰지 않아요.<br>· <b>your</b>는 '너의'라는 뜻이에요.<br>· <b>yes</b>도 대답하는 말이에요.<br>· 단어 테스트 문장 1번에서 yeah라고 썼다가 <b>you</b>로 고쳤어요. 잘했어요!<br>· 통째로 외워요 — <b>Are you ready?</b>"},
+{"src":E3,"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>( ) on!</b><span class='ko'>(어서!)</span>","choices":["Come","Go","You","Here"],"answer":"Come","exp":"정답은 <b class='en'>Come</b>!<br>· <b>Come on!</b> = 어서! 재촉하거나 응원할 때 쓰는 말이에요.<br>· <b>Go</b>는 <b>Here we go!</b>(자, 시작이다!)에 들어가요.<br>· <b>You</b>는 <b>Are you ready?</b>(준비됐어?)에 들어가요.<br>· <b>Here</b>도 Here we go!에 들어가요.<br>· 단어 테스트 문장 5번에서 you라고 썼다가 <b>Come</b>으로 고쳤어요. 정말 잘했어요!<br>· 5영역 끝! 네 문장을 통째로 외워요 — Are you ready? / Come on! / Check this out! / Here we go!<br>· 30문항 모두 수고했어요!"}
+];
+
+/* ══════════ 오답 클리닉 문제 (문항별 1:1 대응) ══════════ */
+var CLINIC = [
+{"q":"<b class='en'>black</b>의 뜻으로 알맞은 것을 고르세요.","choices":["검은, 검정","파란색","칼날","깃발"],"answer":"검은, 검정","exp":"정답은 <b>검은, 검정</b>!<br>· <b class='en'>black</b> = 검은, 검정<br>· 파란색은 <b class='en'>blue</b>, 칼날은 <b class='en'>blade</b>, 깃발은 <b class='en'>flag</b>예요.<br>· bl 친구들: <b>bl</b>ack · <b>bl</b>ade · <b>bl</b>ue"},
+{"q":"다음 중 <b>bl 소리</b>로 시작하는 낱말을 고르세요.","choices":["blade","flag","glue","sled"],"answer":"blade","exp":"정답은 <b class='en'>blade</b>!<br>· <b>bl</b>ade는 <b>블</b> 소리로 시작해요.<br>· <b>fl</b>ag는 플, <b>gl</b>ue는 글, <b>sl</b>ed는 슬 소리예요.<br>· 소리 내어 읽어 보면 바로 구별돼요!"},
+{"q":"'플루트'를 뜻하는 낱말을 고르세요.","choices":["flute","flate","flout","fulte"],"answer":"flute","exp":"정답은 <b class='en'>flute</b>!<br>· fl + <b>u</b> + te. 가운데가 <b>u</b>예요!<br>· flate는 가운데가 a라서 안 돼요. 플<b>루</b>트니까 <b>u</b>!<br>· fulte는 f 다음에 바로 <b>l</b>이 와야 해요."},
+{"q":"'불길, 불꽃'을 뜻하는 낱말을 고르세요.","choices":["flame","flute","frame","flam"],"answer":"flame","exp":"정답은 <b class='en'>flame</b>!<br>· fl + <b>a</b> + me. 가운데가 <b>a</b>예요.<br>· <b>flute</b>는 '플루트'로 가운데가 u예요.<br>· <b>frame</b>은 l이 아니라 <b>r</b>이 들어간 다른 낱말이에요.<br>· flam은 끝에 <b>e</b>가 필요해요."},
+{"q":"다음 중 <b>fl 소리</b>로 시작하지 <b>않는</b> 낱말을 고르세요.","choices":["glue","flag","flame","flute"],"answer":"glue","exp":"정답은 <b class='en'>glue</b>예요!<br>· <b>glue</b>는 <b>gl</b>(글) 소리로 시작해요.<br>· flag · flame · flute는 모두 <b>fl</b>(플) 소리예요.<br>· 소리 내어 읽어 봐요 — <b>글</b>루 / <b>플</b>래그 · <b>플</b>레임 · <b>플</b>루트"},
+{"q":"'파란, 파란색'을 뜻하는 낱말을 고르세요.","choices":["blue","glue","blur","bleu"],"answer":"blue","exp":"정답은 <b class='en'>blue</b>!<br>· <b>bl</b> + <b>ue</b> = blue<br>· <b>glue</b>는 '풀'이에요! 끝이 똑같이 ue라서 앞 글자를 잘 봐야 해요.<br>· blur와 bleu는 다른 낱말이에요.<br>· 구별법: <b>bl</b>ue 파란색 / <b>gl</b>ue 풀"},
+{"q":"'지구본'을 뜻하는 낱말을 고르세요.","choices":["globe","glue","glass","glob"],"answer":"globe","exp":"정답은 <b class='en'>globe</b>!<br>· gl<b>o</b>be — <b>o</b>가 동그란 지구처럼 생겼어요.<br>· glue는 '풀', glass는 '(유리)잔'이에요.<br>· glob은 끝에 <b>e</b>가 필요해요. 다섯 글자!"},
+{"q":"'(유리)잔'을 뜻하는 낱말을 고르세요.","choices":["glass","globe","grass","glas"],"answer":"glass","exp":"정답은 <b class='en'>glass</b>!<br>· gla<b>ss</b> — <b>s</b>가 두 개! 유리가 쨍그랑!<br>· <b>globe</b>는 '지구본'이에요.<br>· <b>grass</b>는 l이 아니라 <b>r</b>이 들어간 '풀밭'이에요.<br>· glas는 s를 두 번 써야 해요."},
+{"q":"'풀 (붙이는 것)'을 뜻하는 낱말을 고르세요.","choices":["glue","globe","blue","gule"],"answer":"glue","exp":"정답은 <b class='en'>glue</b>!<br>· 삼형제 중 가장 <b>짧아요</b>(네 글자).<br>· <b>globe</b>는 '지구본'이에요.<br>· <b>blue</b>는 '파란색'! 앞 글자가 <b>b</b>예요.<br>· gule은 g 다음에 바로 <b>l</b>이 와야 해요."},
+{"q":"빈칸에 알맞은 낱말을 고르세요.<br><b class='en'>I drink water in a ( ).</b><span class='ko'>(나는 잔으로 물을 마신다.)</span>","choices":["glass","globe","glue","flag"],"answer":"glass","exp":"정답은 <b class='en'>glass</b>!<br>· 물을 마시는 것은 <b>glass</b>(유리잔)예요.<br>· globe는 지구본, glue는 풀, flag는 깃발이에요.<br>· a <b>glass</b> of water = 물 한 잔"},
+{"q":"<b class='en'>glue</b>의 뜻으로 알맞은 것을 고르세요.","choices":["풀","파란색","지구본","(유리)잔"],"answer":"풀","exp":"정답은 <b>풀</b>!<br>· <b class='en'>glue</b> = 풀. 종이를 붙이는 것이에요.<br>· 파란색은 <b class='en'>blue</b>, 지구본은 <b class='en'>globe</b>, (유리)잔은 <b class='en'>glass</b>예요.<br>· blue와 glue는 끝이 똑같이 ue! 앞 글자를 잘 봐요."},
+{"q":"<b class='en'>globe</b>의 뜻으로 알맞은 것을 고르세요.","choices":["지구본","풀","(유리)잔","불꽃"],"answer":"지구본","exp":"정답은 <b>지구본</b>!<br>· <b class='en'>globe</b> = 지구본<br>· 풀은 <b class='en'>glue</b>, (유리)잔은 <b class='en'>glass</b>, 불꽃은 <b class='en'>flame</b>이에요.<br>· gl 삼형제: <b>globe</b>(o 두 개) · <b>glass</b>(s 두 개) · <b>glue</b>(가장 짧음)"},
+{"q":"<b class='en'>sleep</b>의 뜻으로 알맞은 것을 고르세요.","choices":["자다","미끄럼틀","썰매","깃발"],"answer":"자다","exp":"정답은 <b>자다</b>!<br>· <b class='en'>sleep</b> = 자다. sl<b>ee</b>p, e가 두 개예요.<br>· 미끄럼틀은 <b class='en'>slide</b>, 썰매는 <b class='en'>sled</b>, 깃발은 <b class='en'>flag</b>예요."},
+{"q":"'미끄럼틀'을 뜻하는 낱말을 고르세요.","choices":["slide","sled","sleep","slip"],"answer":"slide","exp":"정답은 <b class='en'>slide</b>!<br>· sl + <b>ide</b>. 가운데가 <b>i</b>, 끝에 <b>e</b>가 있어요. 다섯 글자!<br>· <b>sled</b>는 '썰매'(네 글자), <b>sleep</b>은 '자다'(e 두 개)예요.<br>· <b>slip</b>은 '미끄러지다'라는 다른 낱말이에요."},
+{"q":"'썰매'를 뜻하는 낱말을 고르세요.","choices":["sled","slide","sleep","sledge"],"answer":"sled","exp":"정답은 <b class='en'>sled</b>!<br>· sl + <b>ed</b>. <b>네 글자</b>예요. 끝에 e가 없어요!<br>· <b>slide</b>는 '미끄럼틀'(다섯 글자)이에요.<br>· <b>sleep</b>은 '자다'예요.<br>· 구별법: 미끄럼틀은 길어서 길게, 썰매는 짧아서 짧게!"},
+{"q":"<b class='en'>sled</b>의 뜻으로 알맞은 것을 고르세요.","choices":["썰매","미끄럼틀","자다","칼날"],"answer":"썰매","exp":"정답은 <b>썰매</b>!<br>· <b class='en'>sled</b> = 썰매. 눈 위에서 타는 것이에요.<br>· 미끄럼틀은 <b class='en'>slide</b>, 자다는 <b class='en'>sleep</b>, 칼날은 <b class='en'>blade</b>예요."},
+{"q":"<b class='en'>slide</b>의 뜻으로 알맞은 것을 고르세요.","choices":["미끄럼틀","자다","썰매","지구본"],"answer":"미끄럼틀","exp":"정답은 <b>미끄럼틀</b>!<br>· <b class='en'>slide</b> = 미끄럼틀. 놀이터에서 주르륵!<br>· 자다는 <b class='en'>sleep</b>, 썰매는 <b class='en'>sled</b>, 지구본은 <b class='en'>globe</b>예요."},
+{"q":"다음 중 <b>sl 소리</b>로 시작하는 낱말을 고르세요.","choices":["sleep","blade","flame","globe"],"answer":"sleep","exp":"정답은 <b class='en'>sleep</b>!<br>· <b>sl</b>eep은 <b>슬</b> 소리로 시작해요.<br>· <b>bl</b>ade는 블, <b>fl</b>ame은 플, <b>gl</b>obe는 글 소리예요.<br>· 네 가지 소리를 정리해요 — bl(블) · fl(플) · gl(글) · sl(슬)"},
+{"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>I eat ( ) orange.</b><span class='ko'>(나는 오렌지를 먹는다.)</span>","choices":["an","a","and","on"],"answer":"an","exp":"정답은 <b>an</b>!<br>· orange는 '<b>오</b>렌지'로 시작해요. 오 소리니까 <b>an</b>!<br>· a는 오·아·에·이·우가 아닌 소리 앞에 써요.<br>· and는 '그리고', on은 '~위에'예요."},
+{"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>I eat ( ) peach.</b><span class='ko'>(나는 복숭아를 먹는다.)</span>","choices":["a","an","the","at"],"answer":"a","exp":"정답은 <b>a</b>!<br>· peach는 '<b>ㅍ</b>이치'로 시작해요. 아·에·이·오·우 소리가 아니니까 <b>a</b>!<br>· an은 아·에·이·오·우 소리 앞에만 써요.<br>· a를 쓰는 과일: a mango · a pear · a lemon · a peach"},
+{"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>I eat ( ) apple.</b><span class='ko'>(나는 사과를 먹는다.)</span>","choices":["an","a","in","and"],"answer":"an","exp":"정답은 <b>an</b>!<br>· apple은 '<b>애</b>플'로 시작해요. 아 소리니까 <b>an</b>!<br>· 소리 내어 읽어 봐요 — <b>안 애플</b>! a apple보다 훨씬 부드럽죠?<br>· an을 쓰는 과일은 <b>apple</b>과 <b>orange</b> 두 개예요."},
+{"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>I eat ( ) lemon.</b><span class='ko'>(나는 레몬을 먹는다.)</span>","choices":["a","an","on","of"],"answer":"a","exp":"정답은 <b>a</b>!<br>· lemon은 '<b>ㄹ</b>레몬'으로 시작해요. 아·에·이·오·우 소리가 아니니까 <b>a</b>!<br>· an은 apple, orange처럼 아·오 소리로 시작할 때 써요.<br>· 아인이가 워크북에서 <b>I eat a lemon.</b>을 정확하게 썼어요!"},
+{"q":"<b>바르게</b> 쓴 것을 고르세요.<span class='ko'>(오렌지 하나)</span>","choices":["an orange","a n orange","a orange","anorange"],"answer":"an orange","exp":"정답은 <b class='en'>an orange</b>!<br>· <b>an</b>은 a와 n을 붙여서 한 낱말! 그리고 orange 앞에서 한 번 띄어 써요.<br>· <b>a n orange</b>는 a와 n이 떨어져 있어요.<br>· <b>a orange</b>는 오 소리 앞이라 an이 필요해요.<br>· <b>anorange</b>는 붙여 쓰면 안 돼요.<br>· 기억해요: <b>an은 두 글자가 붙어서 한 낱말!</b>"},
+{"q":"우리말에 맞게 <b>바르게</b> 쓴 문장을 고르세요.<br><b>나는 사과를 먹는다.</b>","choices":["I eat an apple.","I eat a apple.","I eat a n apple.","I eat anapple."],"answer":"I eat an apple.","exp":"정답은 <b class='en'>I eat an apple.</b><br>· 낱말 네 개를 하나씩 띄어 써요 — <b>I / eat / an / apple.</b><br>· <b>I eat a apple.</b>은 apple이 아 소리라서 <b>an</b>이어야 해요.<br>· <b>I eat a n apple.</b>은 a와 n을 붙여야 해요.<br>· <b>I eat anapple.</b>은 an과 apple 사이를 띄어야 해요.<br>· 워크북에 나왔던 바로 그 문장이에요!"},
+{"q":"'복숭아'를 뜻하는 낱말을 고르세요.","choices":["peach","pear","peech","peash"],"answer":"peach","exp":"정답은 <b class='en'>peach</b>!<br>· p-e-a-<b>ch</b>. 끝이 <b>ch</b>예요.<br>· <b>pear</b>는 '<b>배</b>'예요! 앞은 똑같이 pea지만 끝이 <b>r</b>이랍니다.<br>· peech와 peash는 틀린 철자예요.<br>· 구별법: p-e-a-<b>r</b> 배 / p-e-a-<b>ch</b> 복숭아"},
+{"q":"'망고'를 뜻하는 낱말을 고르세요.","choices":["mango","mengo","manggo","mango e"],"answer":"mango","exp":"정답은 <b class='en'>mango</b>!<br>· m-a-n-g-<b>o</b>. 다섯 글자, 끝이 <b>o</b>예요.<br>· mengo는 가운데가 <b>a</b>예요.<br>· manggo는 g를 두 번 쓰지 않아요.<br>· 아인이가 워크북 Word Review에서 <b>mango</b>를 정확하게 썼어요!"},
+{"q":"'사과'를 뜻하는 낱말을 고르세요.","choices":["apple","aple","appel","apel"],"answer":"apple","exp":"정답은 <b class='en'>apple</b>!<br>· a-p-<b>p</b>-l-e. <b>p</b>가 <b>두 개</b>예요!<br>· aple과 apel은 p가 하나예요.<br>· appel은 끝이 <b>le</b> 순서예요.<br>· 기억해요: apple은 <b>p가 두 개</b>, 그리고 <b>an</b> apple!"},
+{"q":"'레몬'을 뜻하는 낱말을 고르세요.","choices":["lemon","limon","lemmon","leman"],"answer":"lemon","exp":"정답은 <b class='en'>lemon</b>!<br>· l-e-m-o-n. 다섯 글자예요.<br>· limon은 첫 소리 뒤가 <b>e</b>예요.<br>· lemmon은 m을 두 번 쓰지 않아요.<br>· leman은 끝이 <b>on</b>이에요."},
+{"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>Check ( ) out!</b><span class='ko'>(이거 한번 확인해봐!)</span>","choices":["this","that","these","it"],"answer":"this","exp":"정답은 <b class='en'>this</b>!<br>· <b>Check this out!</b> = 이거 한번 확인해봐! '이것'을 뜻하는 <b>this</b>가 들어가요.<br>· that은 '저것', these는 '이것들'이에요.<br>· 아인이가 단어 테스트에서 <b>this</b>를 정확하게 썼어요!<br>· 통째로 외워요 — Check this out!"},
+{"q":"빈칸에 알맞은 말을 고르세요.<br><b class='en'>Here we ( )!</b><span class='ko'>(자, 시작이다!)</span>","choices":["go","come","are","this"],"answer":"go","exp":"정답은 <b class='en'>go</b>!<br>· <b>Here we go!</b> = 자, 시작이다! '가다'를 뜻하는 <b>go</b>가 들어가요.<br>· come은 <b>Come on!</b>(어서!)에 들어가요.<br>· 아인이가 단어 테스트에서 <b>go</b>를 정확하게 썼어요!<br>· 네 문장 정리 — Are you ready? / Come on! / Check this out! / Here we go!"}
+];
+
+/* ══════════ 정답 영어 읽어 주기 — 문항별 읽을 문장 ══════════ */
+var SAY_ALL = [
+"black, black.",
+"blade, blade.",
+"flag, flag.",
+"flame, flame.",
+"flute, flute.",
+"blue, blue.",
+"globe, globe.",
+"glass, glass.",
+"glue, glue.",
+"globe, globe.",
+"glass, glass.",
+"glue, glue.",
+"slide, slide.",
+"sled, sled.",
+"sleep, sleep.",
+"slide, slide.",
+"sled, sled.",
+"blue, blue.",
+"I eat a mango.",
+"I eat a pear.",
+"I eat an apple.",
+"I eat an orange.",
+"an apple, an apple.",
+"I eat an orange.",
+"fruit, fruit.",
+"orange, orange.",
+"pear, pear.",
+"lemon, lemon.",
+"Are you ready?",
+"Come on!"
+];
+var SAY_CLINIC = [
+"black, black.",
+"blade, blade.",
+"flute, flute.",
+"flame, flame.",
+"glue, glue.",
+"blue, blue.",
+"globe, globe.",
+"glass, glass.",
+"glue, glue.",
+"I drink water in a glass.",
+"glue, glue.",
+"globe, globe.",
+"sleep, sleep.",
+"slide, slide.",
+"sled, sled.",
+"sled, sled.",
+"slide, slide.",
+"sleep, sleep.",
+"I eat an orange.",
+"I eat a peach.",
+"I eat an apple.",
+"I eat a lemon.",
+"an orange, an orange.",
+"I eat an apple.",
+"peach, peach.",
+"mango, mango.",
+"apple, apple.",
+"lemon, lemon.",
+"Check this out!",
+"Here we go!"
+];
+(function attachSay() {
+  ALL.forEach(function (q, i) { q.say = SAY_ALL[i] || ""; });
+  CLINIC.forEach(function (q, i) { q.say = SAY_CLINIC[i] || ""; });
+})();
+
+/* ══════════ 영역 · 카드 배치 ══════════ */
+var SECTIONS = [
+  { name: "1영역 · bl / fl 두 글자 소리",       start: 0,  end: 6,  cards: [A1, A2, A3] },
+  { name: "2영역 · gl 삼형제 구별하기",          start: 6,  end: 12, cards: [B1, B2, B3] },
+  { name: "3영역 · sl 두 글자 소리",             start: 12, end: 18, cards: [C1, C2, C3] },
+  { name: "4영역 · a / an 구별",                start: 18, end: 24, cards: [D1, D2, D3] },
+  { name: "5영역 · 과일 낱말 + 수업 표현",       start: 24, end: 30, cards: [E1, E2, E3] }
+];
+var NSEC = SECTIONS.length;
+function secIndex(i) {
+  for (var s = 0; s < NSEC; s++) { if (i < SECTIONS[s].end) return s; }
+  return NSEC - 1;
+}
+var CARD_AT = {
+  0: A1, 2: A2, 4: A3,
+  6: B1, 8: B2, 10: B3,
+  12: C1, 14: C2, 16: C3,
+  18: D1, 20: D2, 22: D3,
+  24: E1, 26: E2, 28: E3
+};
+
+/* ══════════ 정답 위치 균등 분산 (같은 위치 3연속 금지) ══════════ */
+function shuffleArr(arr) {
+  var a = arr.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+function balancedAssign(n, k) {
+  var pool = [];
+  var base = Math.floor(n / k);
+  for (var p = 0; p < k; p++) { for (var c = 0; c < base; c++) pool.push(p); }
+  var remainder = n - pool.length;
+  var extra = shuffleArr([0, 1, 2, 3]).slice(0, remainder);
+  extra.forEach(function (p) { pool.push(p); });
+  return shuffleArr(pool);
+}
+function hasTripleRun(arr) {
+  for (var i = 2; i < arr.length; i++) {
+    if (arr[i] === arr[i - 1] && arr[i - 1] === arr[i - 2]) return true;
+  }
+  return false;
+}
+function balancedNoTriple(n, k) {
+  var t = balancedAssign(n, k);
+  for (var tries = 0; tries < 300 && hasTripleRun(t); tries++) t = balancedAssign(n, k);
+  return t;
+}
+function prepareList(list, from, to) {
+  var mcIdx = [];
+  for (var idx = from; idx < to; idx++) {
+    var q = list[idx];
+    if (q.t === "ord") {
+      var ti = [];
+      for (var z = 0; z < q.tiles.length; z++) ti.push(z);
+      q.shuffled = shuffleArr(ti);
+    } else { mcIdx.push(idx); }
+  }
+  var targets = balancedNoTriple(mcIdx.length, 4);
+  mcIdx.forEach(function (idx, mi) {
+    var q = list[idx];
+    var sh = shuffleArr(q.choices);
+    var cur = sh.indexOf(q.answer);
+    var tg = targets[mi];
+    var tmp = sh[tg]; sh[tg] = sh[cur]; sh[cur] = tmp;
+    q.shuffled = sh;
+  });
+}
+(function prepareAll() {
+  SECTIONS.forEach(function (sec) {
+    prepareList(ALL, sec.start, sec.end);
+    prepareList(CLINIC, sec.start, sec.end);
+  });
+})();
+
+/* ══════════ 정답 영어 소리로 듣기 ══════════ */
+var SOUND_KEY = "engfit-sound-on";
+var soundOn = true;
+try { soundOn = localStorage.getItem(SOUND_KEY) !== "off"; } catch (e) {}
+
+var EN_VOICE = null;
+function pickVoice() {
+  try {
+    var vs = window.speechSynthesis.getVoices() || [];
+    var en = vs.filter(function (v) { return /^en/i.test(v.lang || ""); });
+    EN_VOICE = en.filter(function (v) { return /en[-_]US/i.test(v.lang || ""); })[0] || en[0] || null;
+  } catch (e) {}
+}
+if (window.speechSynthesis) {
+  pickVoice();
+  try { window.speechSynthesis.onvoiceschanged = pickVoice; } catch (e) {}
+}
+
+/* iOS 등에서 첫 소리가 나오도록, 시작 버튼을 누를 때 미리 한 번 깨워 둔다 */
+var _voiceWarmed = false;
+function warmUpVoice() {
+  if (_voiceWarmed || !window.speechSynthesis) return;
+  _voiceWarmed = true;
+  try {
+    var u = new SpeechSynthesisUtterance(" ");
+    u.volume = 0; u.lang = "en-US";
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+function showSayBar(text) {
+  var t = document.getElementById("saytext");
+  if (t) t.textContent = text;
+  var bar = document.getElementById("saybar");
+  if (bar) bar.classList.remove("hidden");
+}
+function hideSayBar() {
+  var bar = document.getElementById("saybar");
+  if (bar) bar.classList.add("hidden");
+}
+function stopSpeaking() {
+  try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {}
+  hideSayBar();
+}
+
+/* 정답 영어를 읽어 준 뒤 onDone 실행.
+   소리가 꺼져 있거나 브라우저가 지원하지 않으면 기다리지 않고 바로 넘어간다. */
+function speakAnswer(text, onDone) {
+  var done = false;
+  function finish() {
+    if (done) return;
+    done = true;
+    hideSayBar();
+    onDone();
+  }
+  if (!soundOn || !text || !window.speechSynthesis) { setTimeout(finish, 250); return; }
+  showSayBar(text);
+  try {
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US";
+    if (EN_VOICE) u.voice = EN_VOICE;
+    u.rate = 0.82;
+    u.pitch = 1;
+    u.onend = function () { setTimeout(finish, 400); };
+    u.onerror = finish;
+    window.speechSynthesis.speak(u);
+    /* 소리가 끝나지 않는 환경에서도 멈추지 않도록 하는 안전장치 */
+    setTimeout(finish, Math.min(11000, 2400 + text.length * 95));
+  } catch (e) { setTimeout(finish, 700); }
+}
+
+/* ══════════ 정답 음원 재생 (카톡 인앱 브라우저에서도 나오도록 파일 재생) ══════════ */
+function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+var AUDIO_EL = null;
+function getAudioEl() {
+  if (!AUDIO_EL) {
+    AUDIO_EL = new Audio();
+    AUDIO_EL.preload = "auto";
+  }
+  return AUDIO_EL;
+}
+function stopAudio() {
+  try { if (AUDIO_EL) { AUDIO_EL.pause(); AUDIO_EL.onended = null; AUDIO_EL.onerror = null; AUDIO_EL.onplaying = null; } } catch (e) {}
+}
+
+/* 정답 음원을 들려준 뒤 onDone 실행.
+   1순위 음원 파일 → 2순위 브라우저 읽기(TTS) → 3순위 그냥 넘어가기 */
+function playAnswer(file, text, onDone) {
+  var done = false;
+  function finish() {
+    if (done) return;
+    done = true;
+    stopAudio();
+    hideSayBar();
+    onDone();
+  }
+  if (!soundOn || !text) { setTimeout(finish, 250); return; }
+  showSayBar(text);
+
+  var usedFallback = false;
+  function fallback() {
+    if (done || usedFallback) return;
+    usedFallback = true;
+    stopAudio();
+    speakAnswer(text, finish);
+  }
+
+  var a = getAudioEl();
+  var startGuard = setTimeout(fallback, 2600);
+  try {
+    a.onplaying = function () { clearTimeout(startGuard); };
+    a.onended = function () { clearTimeout(startGuard); setTimeout(finish, 350); };
+    a.onerror = function () { clearTimeout(startGuard); fallback(); };
+    a.src = "audio/" + file + ".wav?v=1";
+    a.currentTime = 0;
+    var p = a.play();
+    if (p && p.catch) { p.catch(function () { clearTimeout(startGuard); fallback(); }); }
+  } catch (e) { clearTimeout(startGuard); fallback(); }
+
+  /* 어떤 경우에도 화면이 멈추지 않게 하는 최종 안전장치 */
+  setTimeout(finish, Math.min(13000, 4000 + text.length * 95));
+}
+
+/* ══════════ 진행 상태 ══════════ */
+var studentName = "";
+var current = 0;
+var answersLog = new Array(ALL.length).fill(null);
+var elapsed = new Array(NSEC).fill(0);
+var sent = new Array(NSEC).fill(false);
+var clinicSent = new Array(NSEC).fill(false);
+var lastTick = 0;
+var curSec = 0;
+var cardsShown = {};
+var pendingCard = 0;
+var MODE = "quiz";
+
+var clinicList = [];
+var clinicPos = 0;
+var clinicLog = [];
+var clinicSec = 0;
+
+var SAVE_KEY = "kimain-basic-20260907";
+function saveState() {
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({
+      v: 1, name: studentName, current: current, log: answersLog,
+      elapsed: elapsed, sent: sent, clinicSent: clinicSent, cards: cardsShown,
+      choices: ALL.map(function (q) { return q.shuffled || null; })
+    }));
+  } catch (e) {}
+}
+function loadState() {
+  try {
+    var s = JSON.parse(localStorage.getItem(SAVE_KEY));
+    return (s && s.v === 1 && s.name && s.log) ? s : null;
+  } catch (e) { return null; }
+}
+function clearState() { try { localStorage.removeItem(SAVE_KEY); } catch (e) {} }
+
+var ALL_CARDS = ["start-card", "resume-card", "cards-card", "quiz-card", "sec-result-card",
+                 "clinic-why-card", "clinic-card", "clinic-result-card"];
+function show(id) {
+  stopSpeaking();
+  stopAudio();
+  ALL_CARDS.forEach(function (c) {
+    document.getElementById(c).classList.toggle("hidden", c !== id);
+  });
+  if (id === "start-card") refreshSectionButtons();
+  window.scrollTo(0, 0);
+}
+
+function secDone(si) {
+  var s = SECTIONS[si];
+  for (var i = s.start; i < s.end; i++) { if (!answersLog[i]) return false; }
+  return true;
+}
+function firstUndoneSec() {
+  for (var i = 0; i < NSEC; i++) { if (!secDone(i)) return i; }
+  return -1;
+}
+function refreshSectionButtons() {
+  var doneList = [];
+  secBtns.forEach(function (btn, si) {
+    var done = secDone(si);
+    btn.classList.toggle("done", done);
+    if (done) doneList.push(si + 1);
+  });
+  var note = document.getElementById("sec-done-note");
+  if (note) {
+    note.textContent = doneList.length
+      ? "다 푼 영역: " + doneList.join("영역, ") + "영역 (다시 눌러 복습할 수 있어요)"
+      : "";
+  }
+}
+
+/* ══════════ 카드 → 문제 2개 ══════════ */
+function step() {
+  var si = secIndex(current);
+  curSec = si;
+  if (CARD_AT[current] && !cardsShown[current]) { showCardScreen(current); }
+  else { MODE = "quiz"; show("quiz-card"); showQuestion(); }
+}
+function showCardScreen(i) {
+  pendingCard = i;
+  var sec = SECTIONS[curSec];
+  var title = CARD_AT[i];
+  var pos = sec.cards.indexOf(title) + 1;
+  document.getElementById("card-num").textContent = "개념 카드 " + pos + " / " + sec.cards.length;
+  document.getElementById("card-sec").textContent = sec.name.split(" · ")[0];
+  document.getElementById("card-bar").style.width = (pos / sec.cards.length * 100) + "%";
+  document.getElementById("cardbox").innerHTML = "<h2>" + title + "</h2>" + (TIPS[title] || "");
+  show("cards-card");
+}
+function afterCard() {
+  cardsShown[pendingCard] = true;
+  saveState();
+  MODE = "quiz";
+  show("quiz-card");
+  showQuestion();
+}
+document.getElementById("card-next").addEventListener("click", afterCard);
+document.getElementById("card-skip").addEventListener("click", afterCard);
+
+/* ══════════ 시작 / 이어하기 ══════════ */
+var nameInput = document.getElementById("name-input");
+var secBtns = [].slice.call(document.querySelectorAll(".sec-start"));
+var soundBox = document.getElementById("sound-on");
+if (soundBox) {
+  soundBox.checked = soundOn;
+  soundBox.addEventListener("change", function () {
+    soundOn = soundBox.checked;
+    try { localStorage.setItem(SOUND_KEY, soundOn ? "on" : "off"); } catch (e) {}
+    if (!soundOn) stopSpeaking();
+  });
+}
+var testBtn = document.getElementById("sound-test");
+var soundMsg = document.getElementById("sound-msg");
+function setMsg(txt, color) {
+  if (!soundMsg) return;
+  soundMsg.textContent = txt;
+  soundMsg.style.color = color;
+}
+if (testBtn) {
+  testBtn.addEventListener("click", function () {
+    warmUpVoice();
+    setMsg("소리를 내는 중이에요...", "#6B7B7E");
+    var a = getAudioEl();
+    var started = false;
+    a.onplaying = function () {
+      started = true;
+      setMsg("소리가 나오고 있어요! 안 들리면 휴대폰 볼륨을 올려 주세요.", "#2F7C83");
+    };
+    a.onended = function () {
+      if (started) setMsg("소리 확인 완료! 이제 시작해도 좋아요.", "#2F7C83");
+    };
+    a.onerror = function () {
+      setMsg("소리 파일을 못 불러왔어요. 아래 안내대로 다른 브라우저로 열어 주세요.", "#b5762f");
+    };
+    try {
+      a.src = "audio/test.wav?v=1";
+      a.currentTime = 0;
+      var p = a.play();
+      if (p && p.catch) {
+        p.catch(function () {
+          setMsg("브라우저가 소리를 막았어요. 아래 안내대로 다른 브라우저로 열어 주세요.", "#b5762f");
+        });
+      }
+    } catch (e) {
+      setMsg("소리를 재생할 수 없어요. 아래 안내대로 다른 브라우저로 열어 주세요.", "#b5762f");
+    }
+  });
+}
+function syncNameGate() {
+  var ok = nameInput.value.trim().length > 0;
+  secBtns.forEach(function (b) { b.disabled = !ok; });
+}
+nameInput.addEventListener("input", syncNameGate);
+nameInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter" && nameInput.value.trim()) secBtns[0].click();
+});
+function startSection(si) {
+  var typed = nameInput.value.trim();
+  if (!typed) { nameInput.focus(); return; }
+  studentName = typed;
+  warmUpVoice();
+  var s = SECTIONS[si];
+  for (var i = s.start; i < s.end; i++) { answersLog[i] = null; }
+  elapsed[si] = 0;
+  sent[si] = false;
+  clinicSent[si] = false;
+  Object.keys(CARD_AT).forEach(function (k) { if (+k >= s.start && +k < s.end) delete cardsShown[k]; });
+  current = s.start;
+  curSec = si;
+  lastTick = Date.now();
+  saveState();
+  step();
+}
+secBtns.forEach(function (b) {
+  b.addEventListener("click", function () { startSection(parseInt(b.getAttribute("data-sec"), 10)); });
+});
+
+var savedState = loadState();
+function applySaved(s) {
+  studentName = s.name;
+  current = s.current;
+  answersLog = (s.log || []).slice(0, ALL.length);
+  while (answersLog.length < ALL.length) answersLog.push(null);
+  elapsed = s.elapsed || new Array(NSEC).fill(0);
+  while (elapsed.length < NSEC) elapsed.push(0);
+  sent = s.sent || new Array(NSEC).fill(false);
+  while (sent.length < NSEC) sent.push(false);
+  clinicSent = s.clinicSent || new Array(NSEC).fill(false);
+  while (clinicSent.length < NSEC) clinicSent.push(false);
+  cardsShown = s.cards || {};
+  if (s.choices) {
+    ALL.forEach(function (q, i) { if (s.choices[i]) q.shuffled = s.choices[i]; });
+  }
+}
+if (savedState && savedState.log && savedState.log.some(function (l) { return !!l; })) {
+  var doneCnt = savedState.log.filter(function (l) { return !!l; }).length;
+  document.getElementById("resume-info").textContent =
+    savedState.name + " · " + doneCnt + "문제까지 푼 기록이 있어요. 이어서 풀까요?";
+  show("resume-card");
+} else {
+  syncNameGate();
+}
+document.getElementById("resume-btn").addEventListener("click", function () {
+  applySaved(savedState);
+  nameInput.value = studentName;
+  syncNameGate();
+  lastTick = Date.now();
+  curSec = secIndex(Math.min(current, ALL.length - 1));
+  var prevSec = current > 0 ? secIndex(current - 1) : -1;
+  if (prevSec >= 0 && current === SECTIONS[prevSec].end && secDone(prevSec)) {
+    showSectionResult(prevSec);
+  } else if (current >= ALL.length) {
+    showSectionResult(NSEC - 1);
+  } else { step(); }
+});
+document.getElementById("restart-btn").addEventListener("click", function () {
+  clearState();
+  answersLog = new Array(ALL.length).fill(null);
+  elapsed = new Array(NSEC).fill(0);
+  sent = new Array(NSEC).fill(false);
+  clinicSent = new Array(NSEC).fill(false);
+  cardsShown = {}; current = 0;
+  nameInput.value = "";
+  syncNameGate();
+  show("start-card");
+});
+document.getElementById("pick-sec-btn").addEventListener("click", function () {
+  nameInput.value = studentName; syncNameGate(); show("start-card");
+});
+document.getElementById("cr-pick-btn").addEventListener("click", function () {
+  nameInput.value = studentName; syncNameGate(); show("start-card");
+});
+
+/* ══════════ 낱말 배열(ord) ══════════ */
+function ordNorm(s) {
+  return String(s).toLowerCase().replace(/[.,?!;:]/g, "").replace(/\s+/g, " ").trim();
+}
+var ordPicked = [];
+function renderOrd(q, box) {
+  ordPicked = [];
+  var help = document.createElement("p");
+  help.className = "ord-help";
+  help.innerHTML = "아래 낱말을 <b>순서대로</b> 눌러 주세요. 잘못 눌렀으면 위쪽 칸의 낱말을 다시 눌러 뺄 수 있어요.";
+  var slot = document.createElement("div"); slot.className = "ord-slot";
+  var pool = document.createElement("div"); pool.className = "ord-pool";
+  var okBtn = document.createElement("button");
+  okBtn.className = "btn center"; okBtn.textContent = "다 골랐어요 · 확인하기"; okBtn.disabled = true;
+  var reBtn = document.createElement("button");
+  reBtn.className = "btn sub-btn center"; reBtn.textContent = "처음부터 다시 배열하기";
+  box.appendChild(help); box.appendChild(slot); box.appendChild(pool);
+  box.appendChild(okBtn); box.appendChild(reBtn);
+  function draw() {
+    slot.innerHTML = "";
+    if (ordPicked.length === 0) {
+      var ph = document.createElement("span");
+      ph.className = "ord-ph"; ph.textContent = "여기에 문장이 만들어져요";
+      slot.appendChild(ph);
+    }
+    ordPicked.forEach(function (ti, pos) {
+      var b = document.createElement("button");
+      b.className = "ord-tile picked"; b.textContent = q.tiles[ti];
+      b.addEventListener("click", function () { ordPicked.splice(pos, 1); draw(); });
+      slot.appendChild(b);
+    });
+    pool.innerHTML = "";
+    q.shuffled.forEach(function (ti) {
+      if (ordPicked.indexOf(ti) >= 0) return;
+      var b = document.createElement("button");
+      b.className = "ord-tile"; b.textContent = q.tiles[ti];
+      b.addEventListener("click", function () { ordPicked.push(ti); draw(); });
+      pool.appendChild(b);
+    });
+    okBtn.disabled = (ordPicked.length !== q.tiles.length);
+  }
+  reBtn.addEventListener("click", function () { ordPicked = []; draw(); });
+  okBtn.addEventListener("click", function () {
+    if (ordPicked.length !== q.tiles.length) return;
+    pick(ordPicked.map(function (ti) { return q.tiles[ti]; }).join(" "));
+  });
+  draw();
+}
+
+/* ══════════ 문제 표시 ══════════ */
+var CIRCLED = ["①", "②", "③", "④"];
+function showQuestion() {
+  var q = ALL[current];
+  var si = secIndex(current);
+  curSec = si;
+  var sec = SECTIONS[si];
+  document.getElementById("prog-num").textContent =
+    sec.name.split(" · ")[0] + "  ·  " + (current - sec.start + 1) + " / " + (sec.end - sec.start);
+  document.getElementById("prog-pct").textContent = "전체 " + Math.round(current / ALL.length * 100) + "%";
+  document.getElementById("bar-fill").style.width = ((current - sec.start) / (sec.end - sec.start) * 100) + "%";
+  document.getElementById("srctag").textContent = q.src;
+  document.getElementById("tipinner").innerHTML = "<b>" + q.src + "</b><br>" + (TIPS[q.src] || "");
+  document.getElementById("tipbox").open = false;
+  document.getElementById("qtext").innerHTML = "Q" + (current + 1) + ". " + q.q;
+  var box = document.getElementById("choices");
+  box.innerHTML = "";
+  document.getElementById("keyhint").classList.toggle("hidden", q.t === "ord");
+  if (q.t === "ord") { renderOrd(q, box); lastTick = Date.now(); window.scrollTo(0, 0); return; }
+  q.shuffled.forEach(function (c, i) {
+    var b = document.createElement("button");
+    b.className = "choice";
+    b.innerHTML = '<span class="num">' + CIRCLED[i] + "</span>" + c;
+    b.addEventListener("click", function () { pick(c); });
+    box.appendChild(b);
+  });
+  lastTick = Date.now();
+  window.scrollTo(0, 0);
+}
+
+document.addEventListener("keydown", function (e) {
+  var n = parseInt(e.key, 10);
+  if (!(n >= 1 && n <= 4)) return;
+  if (MODE === "quiz" && !document.getElementById("quiz-card").classList.contains("hidden")) {
+    var q = ALL[current];
+    if (q && q.shuffled && q.t !== "ord" && n <= q.shuffled.length) pick(q.shuffled[n - 1]);
+  } else if (MODE === "clinic" && !document.getElementById("clinic-card").classList.contains("hidden")) {
+    var cq = CLINIC[clinicList[clinicPos]];
+    if (cq && cq.shuffled && cq.t !== "ord" && n <= cq.shuffled.length) pick(cq.shuffled[n - 1]);
+  }
+});
+
+var locked = false;
+function pick(choice) {
+  if (locked) return; locked = true;
+  if (MODE === "clinic") { clinicAnswer(choice); return; }
+  var q = ALL[current];
+  var si = secIndex(current);
+  var ok = (q.t === "ord") ? (ordNorm(choice) === ordNorm(q.answer)) : (choice === q.answer);
+  answersLog[current] = { no: current + 1, ok: ok, chosen: choice, answer: q.answer };
+  elapsed[si] += Math.min(180, Math.round((Date.now() - lastTick) / 1000));
+  var qi = current;
+  current++;
+  saveState();
+  playAnswer("q" + pad2(qi + 1), q.say, function () {
+    locked = false;
+    if (current === SECTIONS[si].end) showSectionResult(si);
+    else step();
+  });
+}
+
+/* ══════════ 공통 도구 ══════════ */
+function copyText(btn, text, doneLabel) {
+  navigator.clipboard.writeText(text).then(function () {
+    btn.textContent = doneLabel;
+  }).catch(function () {
+    prompt("아래 내용을 길게 눌러 복사하세요", text);
+  });
+}
+function plain(s) { return String(s).replace(/<[^>]*>/g, ""); }
+function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+function secStats(si) {
+  var sec = SECTIONS[si];
+  var slice = answersLog.slice(sec.start, sec.end).filter(function (l) { return !!l; });
+  var score = slice.filter(function (l) { return l.ok; }).length;
+  var wrong = slice.filter(function (l) { return !l.ok; }).map(function (l) { return l.no; });
+  return { slice: slice, score: score, total: sec.end - sec.start, wrong: wrong };
+}
+function sectionMsg(si) {
+  var st = secStats(si);
+  return "[영핏 기초개념 다지기 " + (si + 1) + "/" + NSEC + " 결과]\n학생: " + studentName +
+         "\n영역: " + SECTIONS[si].name +
+         "\n점수: " + st.score + "/" + st.total +
+         "\n풀이 시간: " + Math.max(1, Math.round(elapsed[si] / 60)) + "분" +
+         "\n틀린 문항: " + (st.wrong.length ? st.wrong.join(", ") : "없음") +
+         "\n- 영핏 지나티처";
+}
+function totalMsg() {
+  var parts = SECTIONS.map(function (s, si) {
+    var st = secStats(si);
+    return (si + 1) + "영역 " + st.score + "/" + st.total;
+  });
+  var done = answersLog.filter(function (l) { return !!l; });
+  var totalScore = done.filter(function (l) { return l.ok; }).length;
+  var allWrong = done.filter(function (l) { return !l.ok; }).map(function (l) { return l.no; });
+  return "[영핏 기초개념 다지기 최종 결과]\n학생: " + studentName +
+         "\n내용: bl·fl·gl·sl 소리 + a/an + 과일 낱말 (30문항)" +
+         "\n" + parts.join(" / ") +
+         "\n총점: " + totalScore + "/" + ALL.length +
+         "\n틀린 문항: " + (allWrong.length ? allWrong.join(", ") : "없음") +
+         "\n- 영핏 지나티처";
+}
+function clinicMsg() {
+  var score = clinicLog.filter(function (l) { return l && l.ok; }).length;
+  return "[영핏 오답 클리닉 결과]\n학생: " + studentName +
+         "\n영역: " + SECTIONS[clinicSec].name +
+         "\n클리닉 점수: " + score + "/" + clinicLog.length +
+         "\n다시 풀어 본 문항: " + clinicList.map(function (i) { return i + 1; }).join(", ") +
+         "\n- 영핏 지나티처";
+}
+
+/* ══════════ 영역 결과 ══════════ */
+function showSectionResult(si) {
+  MODE = "quiz";
+  var st = secStats(si);
+  var allDone = firstUndoneSec() === -1;
+  document.getElementById("sec-result-title").textContent =
+    allDone ? "모든 영역 완료! 정말 수고했어요" : (si + 1) + "영역 완료! 잘했어요";
+  document.getElementById("sec-score").textContent = st.score + " / " + st.total;
+  document.getElementById("sec-wrong").textContent =
+    st.wrong.length ? "틀린 문항: " + st.wrong.join(", ") + " — 아래 해설을 읽고 오답 클리닉으로 한 번 더 잡아요!"
+                    : "이 영역 전부 정답! 최고예요";
+
+  var copyBtn = document.getElementById("sec-copy-btn");
+  copyBtn.textContent = (si + 1) + "영역 결과 복사 (카톡용)";
+  copyBtn.onclick = function () { copyText(copyBtn, sectionMsg(si), "복사 완료! 카톡에 붙여넣기 하세요"); };
+
+  var clinicBtn = document.getElementById("clinic-start-btn");
+  if (st.wrong.length) {
+    clinicBtn.classList.remove("hidden");
+    clinicBtn.textContent = "오답 클리닉 시작 · " + st.wrong.length + "문제 다시 잡기";
+    clinicBtn.onclick = function () { startClinic(si); };
+  } else {
+    clinicBtn.classList.add("hidden");
+  }
+
+  var nextBtn = document.getElementById("next-sec-btn");
+  var nextSi = firstUndoneSec();
+  if (allDone) {
+    nextBtn.classList.add("hidden");
+    var totalScore = answersLog.filter(function (l) { return l && l.ok; }).length;
+    document.getElementById("total-block").classList.remove("hidden");
+    document.getElementById("total-score").textContent = totalScore + " / " + ALL.length;
+    document.getElementById("total-detail").textContent =
+      SECTIONS.map(function (s, idx) { var t = secStats(idx); return (idx + 1) + "영역 " + t.score + "/" + t.total; }).join("  ·  ");
+    var totalBtn = document.getElementById("total-copy-btn");
+    totalBtn.onclick = function () { copyText(totalBtn, totalMsg(), "복사 완료! 카톡에 붙여넣기 하세요"); };
+  } else {
+    nextBtn.classList.remove("hidden");
+    document.getElementById("total-block").classList.add("hidden");
+    nextBtn.textContent = "쉬었다가 " + (nextSi + 1) + "영역 개념 카드 보기";
+    nextBtn.onclick = function () { current = SECTIONS[nextSi].start; curSec = nextSi; lastTick = Date.now(); saveState(); step(); };
+  }
+
+  var expBox = document.getElementById("sec-explanations");
+  expBox.innerHTML = "";
+  st.slice.forEach(function (log) {
+    var q = ALL[log.no - 1];
+    var d = document.createElement("div");
+    d.className = "exp" + (log.ok ? "" : " wrong");
+    var ansLine = log.ok ? "" :
+      '<span class="ans-line">내가 고른 답: ' + esc(plain(log.chosen)) + " → 정답: " + esc(plain(q.answer)) + "</span>";
+    d.innerHTML = '<div class="exp-head"><b>Q' + log.no + " " +
+      (log.ok ? "정답!" : "오답 - 다시 보기") + "</b></div>" + ansLine + q.exp;
+    expBox.appendChild(d);
+  });
+
+  if (!sent[si]) {
+    sent[si] = true;
+    saveState();
+    engfitSubmit({
+      quizId: "basic-kai-0907-p" + (si + 1),
+      quizTitle: "김아인 기초개념 다지기 9/7 — " + (si + 1) + "영역",
+      student: studentName,
+      score: st.score,
+      total: st.total,
+      wrong: st.wrong,
+      durationSec: elapsed[si],
+      detail: st.slice
+    });
+  }
+  show("sec-result-card");
+}
+
+/* ══════════ 오답 클리닉 ══════════ */
+function startClinic(si) {
+  clinicSec = si;
+  var st = secStats(si);
+  clinicList = st.wrong.map(function (no) { return no - 1; });
+  clinicPos = 0;
+  clinicLog = [];
+  MODE = "clinic";
+  lastTick = Date.now();
+  showWhy();
+}
+function showWhy() {
+  var idx = clinicList[clinicPos];
+  var q = ALL[idx];
+  var log = answersLog[idx];
+  document.getElementById("why-num").textContent =
+    "왜 틀렸을까?  " + (clinicPos + 1) + " / " + clinicList.length;
+  document.getElementById("why-bar").style.width = (clinicPos / clinicList.length * 100) + "%";
+  document.getElementById("whybox").innerHTML =
+    "<h2>Q" + (idx + 1) + " · 왜 틀렸을까?</h2>" +
+    '<span class="row"><span class="k">문제</span><br>' + q.q + "</span>" +
+    '<span class="row"><span class="k">내가 고른 답</span> ' + esc(plain(log ? log.chosen : "")) + "<br>" +
+    '<span class="k">정답</span> ' + esc(plain(q.answer)) + "</span>" +
+    q.exp;
+  document.getElementById("rulebox").innerHTML =
+    '<span class="h">규칙 다시 보기 — ' + q.src + "</span>" + (TIPS[q.src] || "");
+  show("clinic-why-card");
+}
+document.getElementById("why-next").addEventListener("click", function () {
+  MODE = "clinic";
+  show("clinic-card");
+  showClinicQuestion();
+});
+function showClinicQuestion() {
+  var idx = clinicList[clinicPos];
+  var cq = CLINIC[idx];
+  document.getElementById("cq-num").textContent =
+    "클리닉 문제  " + (clinicPos + 1) + " / " + clinicList.length;
+  document.getElementById("cq-bar").style.width = ((clinicPos + 0.5) / clinicList.length * 100) + "%";
+  document.getElementById("cq-src").textContent = "Q" + (idx + 1) + " 같은 개념 · " + ALL[idx].src;
+  document.getElementById("cq-text").innerHTML = cq.q;
+  var box = document.getElementById("cq-choices");
+  box.innerHTML = "";
+  document.getElementById("cq-keyhint").classList.toggle("hidden", cq.t === "ord");
+  if (cq.t === "ord") { renderOrd(cq, box); lastTick = Date.now(); window.scrollTo(0, 0); return; }
+  cq.shuffled.forEach(function (c, i) {
+    var b = document.createElement("button");
+    b.className = "choice";
+    b.innerHTML = '<span class="num">' + CIRCLED[i] + "</span>" + c;
+    b.addEventListener("click", function () { pick(c); });
+    box.appendChild(b);
+  });
+  lastTick = Date.now();
+  window.scrollTo(0, 0);
+}
+function clinicAnswer(choice) {
+  var idx = clinicList[clinicPos];
+  var cq = CLINIC[idx];
+  var ok = (cq.t === "ord") ? (ordNorm(choice) === ordNorm(cq.answer)) : (choice === cq.answer);
+  clinicLog.push({ no: idx + 1, ok: ok, chosen: choice, answer: cq.answer });
+  clinicPos++;
+  playAnswer("c" + pad2(idx + 1), cq.say, function () {
+    locked = false;
+    if (clinicPos >= clinicList.length) showClinicResult();
+    else showWhy();
+  });
+}
+function showClinicResult() {
+  MODE = "quiz";
+  var score = clinicLog.filter(function (l) { return l.ok; }).length;
+  var total = clinicLog.length;
+  document.getElementById("cr-score").textContent = score + " / " + total;
+  document.getElementById("cr-title").textContent =
+    (score === total) ? "오답 클리닉 전부 정답! 완벽해요" : "오답 클리닉 완료! 수고했어요";
+  document.getElementById("cr-msg").textContent =
+    (score === total)
+      ? "틀렸던 곳을 전부 다시 잡았어요. 이제 이 소리는 아인이 것이에요!"
+      : "한 번 더 보면 확실해져요. 아래 해설을 소리 내어 읽어 보세요.";
+
+  var crCopy = document.getElementById("cr-copy-btn");
+  crCopy.textContent = "클리닉 결과 복사 (카톡용)";
+  crCopy.onclick = function () { copyText(crCopy, clinicMsg(), "복사 완료! 카톡에 붙여넣기 하세요"); };
+
+  var nextSi = firstUndoneSec();
+  var crNext = document.getElementById("cr-next-btn");
+  if (nextSi === -1) {
+    crNext.textContent = "영역 결과 화면으로 돌아가기";
+    crNext.onclick = function () { showSectionResult(clinicSec); };
+  } else {
+    crNext.textContent = "쉬었다가 " + (nextSi + 1) + "영역 개념 카드 보기";
+    crNext.onclick = function () { current = SECTIONS[nextSi].start; curSec = nextSi; lastTick = Date.now(); saveState(); step(); };
+  }
+
+  var box = document.getElementById("cr-explanations");
+  box.innerHTML = "";
+  clinicLog.forEach(function (log, i) {
+    var idx = clinicList[i];
+    var cq = CLINIC[idx];
+    var d = document.createElement("div");
+    d.className = "exp" + (log.ok ? "" : " wrong");
+    var ansLine = log.ok ? "" :
+      '<span class="ans-line">내가 고른 답: ' + esc(plain(log.chosen)) + " → 정답: " + esc(plain(cq.answer)) + "</span>";
+    d.innerHTML = '<div class="exp-head"><b>Q' + (idx + 1) + " 클리닉 " +
+      (log.ok ? "정답!" : "다시 보기") + "</b></div>" + ansLine + cq.exp;
+    box.appendChild(d);
+  });
+
+  if (!clinicSent[clinicSec]) {
+    clinicSent[clinicSec] = true;
+    saveState();
+    engfitSubmit({
+      quizId: "basic-kai-0907-p" + (clinicSec + 1) + "-clinic",
+      quizTitle: "김아인 오답 클리닉 9/7 — " + (clinicSec + 1) + "영역",
+      student: studentName,
+      score: score,
+      total: total,
+      wrong: clinicLog.filter(function (l) { return !l.ok; }).map(function (l) { return l.no; }),
+      durationSec: 0,
+      detail: clinicLog
+    });
+  }
+  show("clinic-result-card");
+}
+</script>
+</body>
+</html>
